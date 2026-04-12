@@ -92,6 +92,16 @@ export default function FloatingCards({
     <>
       {/* Desktop/Tablet: hero with floating absolute cards */}
       <section className="relative mx-auto w-full max-w-7xl px-6 py-20 md:py-24 lg:min-h-[calc(100vh-4rem)] lg:flex lg:items-center lg:justify-center lg:py-16">
+        {/* Dot grid background */}
+        <div
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            backgroundImage: "radial-gradient(circle, #d1d1d1 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+            maskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black 40%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black 40%, transparent 100%)",
+          }}
+        />
         {/* Floating cards — visible on lg+ */}
         {cards.map((card) => (
           <div

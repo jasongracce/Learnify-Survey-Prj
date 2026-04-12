@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import LanguageDropdown from "@/components/ui/dropdown";
 
 const navLinks = ["About", "Features", "Pricing", "Survey"];
 
@@ -32,13 +33,16 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* CTA */}
-        <a
-          href="#waitlist"
-          className="hidden rounded-full border border-[#1a1a1a] px-5 py-2 text-sm font-medium text-[#1a1a1a] transition-all hover:bg-[#1a1a1a] hover:text-white md:inline-flex"
-        >
-          Join Waitlist
-        </a>
+        {/* CTA + Language */}
+        <div className="hidden items-center gap-3 md:flex">
+          <a
+            href="#waitlist"
+            className="rounded-full border border-[#1a1a1a] px-5 py-2 text-sm font-medium text-[#1a1a1a] transition-all hover:bg-[#1a1a1a] hover:text-white"
+          >
+            Join Waitlist
+          </a>
+          <LanguageDropdown />
+        </div>
 
         {/* Mobile toggle */}
         <button
