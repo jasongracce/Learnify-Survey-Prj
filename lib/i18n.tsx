@@ -161,7 +161,7 @@ const translations: Record<Language, Translations> = {
       tiers: {
         free: { badge: "Free", price: "0", tagline: "For getting started" },
         pro: { badge: "PRO", price: "149", tagline: "For serious learners" },
-        ultra: { badge: "ULTRA", price: "249", tagline: "For power users" },
+        ultra: { badge: "ULTRA", price: "249", tagline: "To go all in" },
       },
       features: {
         activeLearning: "Active Learning Lessons",
@@ -262,7 +262,7 @@ const translations: Record<Language, Translations> = {
       tiers: {
         free: { badge: "ฟรี", price: "0", tagline: "สำหรับผู้เริ่มต้น" },
         pro: { badge: "PRO", price: "149", tagline: "สำหรับผู้เรียนจริงจัง" },
-        ultra: { badge: "ULTRA", price: "249", tagline: "สำหรับผู้ใช้ขั้นสูง" },
+        ultra: { badge: "ULTRA", price: "249", tagline: "เพื่อทุ่มสุดตัว" },
       },
       features: {
         activeLearning: "บทเรียนแบบมีส่วนร่วม",
