@@ -1,9 +1,25 @@
-const cards = [
+"use client";
+
+import { useLanguage, type Translations } from "@/lib/i18n";
+
+type CardKey = keyof Translations["cards"];
+
+type CardStyle = {
+  key: CardKey;
+  side: "left" | "right";
+  bg: string;
+  labelBg: string;
+  labelText: string;
+  progressColor: string;
+  progressWidth: string;
+  rotation: string;
+  desktopClass: string;
+};
+
+const cardStyles: CardStyle[] = [
   {
-    side: "left" as const,
-    label: "SMART STUDY",
-    title: "Learn in Flow",
-    description: "Focused study sessions that keep momentum high.",
+    key: "smartStudy",
+    side: "left",
     bg: "bg-[#e8f4fd]",
     labelBg: "bg-[#cce7f9]",
     labelText: "text-[#2a7ab5]",
@@ -13,10 +29,8 @@ const cards = [
     desktopClass: "top-[8%] left-[2%] xl:left-[4%]",
   },
   {
-    side: "left" as const,
-    label: "MULTI-SUBJECT",
-    title: "Everything Together",
-    description: "Notes, quizzes, and revision in one place.",
+    key: "multiSubject",
+    side: "left",
     bg: "bg-[#eaf7ec]",
     labelBg: "bg-[#c8eacc]",
     labelText: "text-[#3a8a44]",
@@ -26,10 +40,8 @@ const cards = [
     desktopClass: "bottom-[8%] left-[4%] xl:left-[6%]",
   },
   {
-    side: "right" as const,
-    label: "LIVE SUPPORT",
-    title: "Instant Clarity",
-    description: "Ask questions and get guided help instantly.",
+    key: "liveSupport",
+    side: "right",
     bg: "bg-[#fef6e8]",
     labelBg: "bg-[#fce8c3]",
     labelText: "text-[#b57d2a]",
@@ -39,10 +51,8 @@ const cards = [
     desktopClass: "top-[8%] right-[2%] xl:right-[4%]",
   },
   {
-    side: "right" as const,
-    label: "STUDY SYSTEM",
-    title: "Smarter Progress",
-    description: "Track weak spots and revise with structure.",
+    key: "studySystem",
+    side: "right",
     bg: "bg-[#f2edf9]",
     labelBg: "bg-[#ddd2f0]",
     labelText: "text-[#7b5ea7]",
@@ -57,12 +67,19 @@ function Card({
   label,
   title,
   description,
-  bg,
   labelBg,
   labelText,
   progressColor,
   progressWidth,
-}: Omit<(typeof cards)[number], "rotation" | "desktopClass" | "side">) {
+}: {
+  label: string;
+  title: string;
+  description: string;
+  labelBg: string;
+  labelText: string;
+  progressColor: string;
+  progressWidth: string;
+}) {
   return (
     <>
       <span
@@ -88,33 +105,47 @@ export default function FloatingCards({
 }: {
   children: React.ReactNode;
 }) {
+  const { t } = useLanguage();
+
   return (
     <>
       {/* Desktop/Tablet: hero with floating absolute cards */}
       <section className="relative mx-auto w-full max-w-7xl px-6 py-20 md:py-24 lg:min-h-[calc(100vh-4rem)] lg:flex lg:items-center lg:justify-center lg:py-16">
+        {/* Dot grid background */}
+        <div
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            backgroundImage: "radial-gradient(circle, #d1d1d1 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+            maskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black 40%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black 40%, transparent 100%)",
+          }}
+        />
         {/* Floating cards — visible on lg+ */}
-        {cards.map((card) => (
-          <div
-            key={card.label}
-            className={`
-              ${card.bg} ${card.rotation} ${card.desktopClass}
-              absolute hidden w-48 rounded-2xl p-4 shadow-sm
-              transition-all duration-300 hover:shadow-md hover:-translate-y-1
-              lg:block xl:w-52 xl:p-5
-            `}
-          >
-            <Card
-              label={card.label}
-              title={card.title}
-              description={card.description}
-              bg={card.bg}
-              labelBg={card.labelBg}
-              labelText={card.labelText}
-              progressColor={card.progressColor}
-              progressWidth={card.progressWidth}
-            />
-          </div>
-        ))}
+        {cardStyles.map((card) => {
+          const content = t.cards[card.key];
+          return (
+            <div
+              key={card.key}
+              className={`
+                ${card.bg} ${card.rotation} ${card.desktopClass}
+                absolute hidden w-48 rounded-2xl p-4 shadow-sm
+                transition-all duration-300 hover:shadow-md hover:-translate-y-1
+                lg:block xl:w-52 xl:p-5
+              `}
+            >
+              <Card
+                label={content.label}
+                title={content.title}
+                description={content.description}
+                labelBg={card.labelBg}
+                labelText={card.labelText}
+                progressColor={card.progressColor}
+                progressWidth={card.progressWidth}
+              />
+            </div>
+          );
+        })}
 
         {/* Hero content centered */}
         <div className="relative z-10 w-full">{children}</div>
@@ -123,23 +154,25 @@ export default function FloatingCards({
       {/* Mobile/Tablet: cards in a grid below hero */}
       <section className="px-6 pb-16 lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-2 gap-3 sm:gap-4">
-          {cards.map((card) => (
-            <div
-              key={card.label}
-              className={`${card.bg} rounded-2xl p-4 shadow-sm sm:p-5`}
-            >
-              <Card
-                label={card.label}
-                title={card.title}
-                description={card.description}
-                bg={card.bg}
-                labelBg={card.labelBg}
-                labelText={card.labelText}
-                progressColor={card.progressColor}
-                progressWidth={card.progressWidth}
-              />
-            </div>
-          ))}
+          {cardStyles.map((card) => {
+            const content = t.cards[card.key];
+            return (
+              <div
+                key={card.key}
+                className={`${card.bg} rounded-2xl p-4 shadow-sm sm:p-5`}
+              >
+                <Card
+                  label={content.label}
+                  title={content.title}
+                  description={content.description}
+                  labelBg={card.labelBg}
+                  labelText={card.labelText}
+                  progressColor={card.progressColor}
+                  progressWidth={card.progressWidth}
+                />
+              </div>
+            );
+          })}
         </div>
       </section>
     </>
