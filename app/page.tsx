@@ -7,6 +7,7 @@ import FeatureLocalised from "@/components/landing/feature-localised";
 import FeaturePersonalized from "@/components/landing/feature-personalized";
 import FeatureAi from "@/components/landing/feature-ai";
 import Pricing from "@/components/landing/pricing";
+import Survey from "@/components/landing/survey";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <FeaturePersonalized />
         <FeatureAi />
         <Pricing />
+        <Survey />
       </main>
     </div>
   );
