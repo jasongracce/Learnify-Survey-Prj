@@ -3,7 +3,7 @@
 
 create extension if not exists "pgcrypto";
 
-create table survey_responses (
+create table if not exists survey_responses (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   language text not null check (language in ('en', 'th')),
@@ -25,13 +25,14 @@ create table survey_responses (
 
 alter table survey_responses enable row level security;
 
+drop policy if exists "anon can insert responses" on survey_responses;
 create policy "anon can insert responses"
   on survey_responses
   for insert
   to anon
   with check (true);
 
-create table beta_signups (
+create table if not exists beta_signups (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   email text not null unique,
@@ -40,6 +41,7 @@ create table beta_signups (
 
 alter table beta_signups enable row level security;
 
+drop policy if exists "anon can insert signups" on beta_signups;
 create policy "anon can insert signups"
   on beta_signups
   for insert
