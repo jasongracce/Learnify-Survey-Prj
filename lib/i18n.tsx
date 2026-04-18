@@ -73,6 +73,12 @@ export type Translations = {
     };
     cta: string;
   };
+  survey: {
+    eyebrow: string;
+    headline: string;
+    subtitle: string;
+    cta: string;
+  };
 };
 
 const translations: Record<Language, Translations> = {
@@ -176,6 +182,13 @@ const translations: Record<Language, Translations> = {
       },
       cta: "Coming Soon",
     },
+    survey: {
+      eyebrow: "BETA LAUNCHING SOON",
+      headline: "Help shape Learnify's launch",
+      subtitle:
+        "Take our short survey and tell us what you need from a learning platform built for Thai students. Every answer helps us build the beta right.",
+      cta: "Answer Survey",
+    },
   },
   th: {
     nav: {
@@ -276,6 +289,13 @@ const translations: Record<Language, Translations> = {
         earlyAccess: "เข้าถึงฟีเจอร์ใหม่ก่อนใคร",
       },
       cta: "เร็วๆ นี้",
+    },
+    survey: {
+      eyebrow: "เบต้าเปิดเร็วๆ นี้",
+      headline: "ช่วยกำหนดทิศทางการเปิดตัวของ Learnify",
+      subtitle:
+        "ตอบแบบสอบถามสั้นๆ แล้วบอกเราว่าคุณต้องการอะไรจากแพลตฟอร์มการเรียนที่สร้างมาเพื่อนักเรียนไทย ทุกคำตอบช่วยให้เราพัฒนาเบต้าได้ตรงจุด",
+      cta: "ตอบแบบสอบถาม",
     },
   },
 };
