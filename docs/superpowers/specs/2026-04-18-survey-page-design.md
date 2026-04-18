@@ -11,7 +11,7 @@ A standalone survey page that collects pre-launch product-validation data from T
 ## Architecture
 
 - **New client component** at `app/survey/page.tsx`. Uses `"use client"`, `useState` for step index + answer state, `useLanguage()` from `lib/i18n.tsx` for EN/TH strings.
-- **Shared header:** reuses `components/landing/header.tsx` (logo + language toggle). No footer.
+- **Shared header, simplified variant:** `components/landing/header.tsx` gains an optional `simplified?: boolean` prop. When `simplified`, the header renders **only the logo and the language toggle** — no nav links, no "Join waitlist" CTA. The logo's `href` becomes `/` (absolute) so it navigates back to the landing page regardless of where the header is mounted. The survey page uses `<Header simplified />`. The landing page keeps using `<Header />` (defaults to the full variant). No footer.
 - **Supabase client** in `lib/supabase.ts` — reads `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` from env. Client-side inserts; no Next.js API route.
 - **Two tables**, both insert-only for `anon` role via RLS:
   - `survey_responses` — one row per completed survey.
