@@ -1,51 +1,72 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/lib/i18n";
 
 function TextRotate({
   texts,
   rotationInterval = 2600,
+  fadeDuration = 400,
   className = "",
 }: {
   texts: string[];
   rotationInterval?: number;
+  fadeDuration?: number;
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    setIndex(0);
+    setVisible(true);
+  }, [texts]);
 
   useEffect(() => {
     if (texts.length === 0) return;
 
     const id = window.setInterval(() => {
-      setIndex((prev) => (prev + 1) % texts.length);
+      setVisible(false);
+      window.setTimeout(() => {
+        setIndex((prev) => (prev + 1) % texts.length);
+        setVisible(true);
+      }, fadeDuration);
     }, rotationInterval);
 
     return () => window.clearInterval(id);
-  }, [texts, rotationInterval]);
+  }, [texts, rotationInterval, fadeDuration]);
 
-  return <span className={className}>{texts[index] ?? ""}</span>;
+  return (
+    <span
+      className={`${className} ${visible ? "opacity-100" : "opacity-0"}`}
+      style={{
+        transitionProperty: "opacity",
+        transitionDuration: `${fadeDuration}ms`,
+        transitionTimingFunction: "ease-in-out",
+      }}
+    >
+      {texts[index] ?? ""}
+    </span>
+  );
 }
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-col items-center text-center">
       {/* Pill badge */}
       <span className="animate-fade-in-up mb-6 inline-flex rounded-full border border-black/8 bg-white px-4 py-1.5 text-xs font-medium tracking-wide text-[#6b6b6b]">
-        Smarter study starts here
+        {t.hero.badge}
       </span>
 
       {/* Headline */}
       <h1 className="animate-fade-in-up animation-delay-100 max-w-2xl text-4xl font-bold leading-[1.1] tracking-tight text-[#1a1a1a] sm:text-5xl lg:text-6xl">
-        Are you ready to{" "}
+        {t.hero.headlinePrefix}{" "}
         <br />
         <span className="inline-block align-baseline text-black">
           <TextRotate
-            texts={[
-              "learn smarter?",
-              "stay focused?",
-              "ask better questions?",
-              "study with clarity?",
-            ]}
+            texts={t.hero.rotating}
             rotationInterval={2600}
             className="inline-block leading-[1.1] pb-2"
           />
@@ -54,8 +75,7 @@ export default function Hero() {
 
       {/* Supporting text */}
       <p className="animate-fade-in-up animation-delay-200 mt-6 max-w-md text-base leading-relaxed text-[#888] sm:text-lg">
-        Learnify helps students study with more focus, ask better questions, and
-        build real understanding without the usual overwhelm.
+        {t.hero.description}
       </p>
 
       {/* CTA Buttons */}
@@ -64,7 +84,7 @@ export default function Hero() {
           href="#survey"
           className="inline-flex items-center gap-2 rounded-full bg-[#1a1a1a] px-7 py-3 text-sm font-medium text-white transition-all hover:scale-[1.03] hover:shadow-lg"
         >
-          Answer Survey
+          {t.hero.answerSurvey}
           <svg
             width="14"
             height="14"
@@ -85,13 +105,13 @@ export default function Hero() {
           href="#features"
           className="inline-flex items-center rounded-full border border-[#d4d4d4] bg-white px-7 py-3 text-sm font-medium text-[#1a1a1a] transition-all hover:border-[#1a1a1a] hover:shadow-sm"
         >
-          See Features
+          {t.hero.seeFeatures}
         </a>
       </div>
 
       {/* Beta badge */}
       <span className="animate-fade-in-up animation-delay-400 mt-6 text-xs font-medium tracking-wide text-[#bbb] italic">
-        Beta Test soon...
+        {t.hero.beta}
       </span>
     </div>
   );
