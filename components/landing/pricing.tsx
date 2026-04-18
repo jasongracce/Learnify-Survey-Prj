@@ -165,7 +165,7 @@ export default function Pricing() {
       features: [
         { label: p.features.activeLearning, included: true },
         { label: p.features.unlimitedLearning, included: false },
-        { label: p.features.unlimitedLumi, included: false },
+        { label: p.features.weeklyLumi, included: false },
         { label: p.features.noAds, included: false },
         { label: p.features.personalizedPaths, included: false },
       ],
@@ -178,7 +178,7 @@ export default function Pricing() {
       features: [
         { label: p.features.activeLearning, included: true },
         { label: p.features.unlimitedLearning, included: true },
-        { label: p.features.unlimitedLumi, included: true },
+        { label: p.features.weeklyLumi, included: true },
         { label: p.features.noAds, included: true },
         { label: p.features.personalizedPaths, included: true },
       ],
@@ -191,6 +191,7 @@ export default function Pricing() {
       features: [
         { label: p.features.everythingInPro, included: true },
         { label: p.features.advancedAnalytics, included: true },
+        { label: p.features.unlimitedLumi, included: true },
         { label: p.features.earlyAccess, included: true },
       ],
     },

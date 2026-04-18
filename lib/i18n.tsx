@@ -63,6 +63,7 @@ export type Translations = {
     features: {
       activeLearning: string;
       unlimitedLearning: string;
+      weeklyLumi: string;
       unlimitedLumi: string;
       noAds: string;
       personalizedPaths: string;
@@ -165,6 +166,7 @@ const translations: Record<Language, Translations> = {
       features: {
         activeLearning: "Active Learning Lessons",
         unlimitedLearning: "Unlimited Learning",
+        weeklyLumi: "150 Lumi Messages a week",
         unlimitedLumi: "Unlimited Lumi Messages",
         noAds: "No ads",
         personalizedPaths: "Personalized Learning Paths",
@@ -265,6 +267,7 @@ const translations: Record<Language, Translations> = {
       features: {
         activeLearning: "บทเรียนแบบมีส่วนร่วม",
         unlimitedLearning: "เรียนได้ไม่จำกัด",
+        weeklyLumi: "150 ข้อความ Lumi ต่อสัปดาห์",
         unlimitedLumi: "ข้อความ Lumi ไม่จำกัด",
         noAds: "ไม่มีโฆษณา",
         personalizedPaths: "เส้นทางการเรียนเฉพาะบุคคล",
