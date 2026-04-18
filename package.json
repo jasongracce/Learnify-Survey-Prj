@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.1",
+    "@supabase/supabase-js": "^2.103.3",
     "antd": "^6.3.5",
     "cobe": "^2.0.1",
     "framer-motion": "^12.38.0",

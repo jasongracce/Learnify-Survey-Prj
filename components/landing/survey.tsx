@@ -43,8 +43,9 @@ export default function Survey() {
         </motion.div>
 
         <motion.a
-          // TODO: replace with real survey URL once the survey app is live
-          href="#"
+          href="/survey"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{ y: ctaY, opacity: ctaOpacity }}
           className="mt-10 inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-4 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a]"
         >
