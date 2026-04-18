@@ -4,6 +4,9 @@ import FloatingCards from "@/components/landing/floating-cards";
 import StatsBanner from "@/components/landing/stats-banner";
 import FeatureActive from "@/components/landing/feature-active";
 import FeatureLocalised from "@/components/landing/feature-localised";
+import FeaturePersonalized from "@/components/landing/feature-personalized";
+import FeatureAi from "@/components/landing/feature-ai";
+import Pricing from "@/components/landing/pricing";
 
 export default function Home() {
   return (
@@ -16,6 +19,9 @@ export default function Home() {
         <StatsBanner />
         <FeatureActive />
         <FeatureLocalised />
+        <FeaturePersonalized />
+        <FeatureAi />
+        <Pricing />
       </main>
     </div>
   );
