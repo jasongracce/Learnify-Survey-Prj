@@ -40,6 +40,37 @@ export type Translations = {
       title: string;
       description: string;
     };
+    personalized: {
+      number: string;
+      title: string;
+      description: string;
+    };
+    ai: {
+      number: string;
+      title: string;
+      description: string;
+    };
+  };
+  pricing: {
+    title: string;
+    subtitle: string;
+    billingSuffix: string;
+    tiers: {
+      free: { badge: string; price: string; tagline: string };
+      pro: { badge: string; price: string; tagline: string };
+      ultra: { badge: string; price: string; tagline: string };
+    };
+    features: {
+      activeLearning: string;
+      unlimitedLearning: string;
+      unlimitedLumi: string;
+      noAds: string;
+      personalizedPaths: string;
+      everythingInPro: string;
+      advancedAnalytics: string;
+      earlyAccess: string;
+    };
+    cta: string;
   };
 };
 
@@ -109,6 +140,39 @@ const translations: Record<Language, Translations> = {
         description:
           "Every subject is rebuilt for where you actually learn. Examples use local context, questions match your national curriculum, and explanations respect the way your teachers already frame the material. Learnify plans on launching in Thailand first.",
       },
+      personalized: {
+        number: "03.",
+        title: "Personalized Learning",
+        description:
+          "Learnify adapts to the way you learn. It tracks where you get stuck, the time of day you focus best, and the pacing that actually works for your brain — then reshapes every session around it. No two students ever see the same path.",
+      },
+      ai: {
+        number: "04.",
+        title: "AI Powered with Lumi",
+        description:
+          "Meet Lumi — Learnify's Socratic study companion. Instead of handing you answers, Lumi guides you with the right questions, one step at a time, so you actually learn how to solve the next problem on your own.",
+      },
+    },
+    pricing: {
+      title: "Pricing plans",
+      subtitle: "Choose the right plan for your needs.",
+      billingSuffix: "THB/mo",
+      tiers: {
+        free: { badge: "Free", price: "0", tagline: "For getting started" },
+        pro: { badge: "PRO", price: "149", tagline: "For serious learners" },
+        ultra: { badge: "ULTRA", price: "249", tagline: "For power users" },
+      },
+      features: {
+        activeLearning: "Active Learning Lessons",
+        unlimitedLearning: "Unlimited Learning",
+        unlimitedLumi: "Unlimited Lumi Messages",
+        noAds: "No ads",
+        personalizedPaths: "Personalized Learning Paths",
+        everythingInPro: "Everything in Pro",
+        advancedAnalytics: "Advanced Analytics",
+        earlyAccess: "Early access to new features",
+      },
+      cta: "Coming Soon",
     },
   },
   th: {
@@ -176,6 +240,39 @@ const translations: Record<Language, Translations> = {
         description:
           "ทุกวิชาถูกสร้างขึ้นใหม่ให้เข้ากับที่ที่คุณเรียนจริง ตัวอย่างใช้บริบทท้องถิ่น คำถามตรงกับหลักสูตรของประเทศคุณ และคำอธิบายเคารพวิธีที่คุณครูของคุณสอนอยู่แล้ว Learnify วางแผนเปิดตัวที่ประเทศไทยเป็นที่แรก",
       },
+      personalized: {
+        number: "03.",
+        title: "การเรียนรู้เฉพาะบุคคล",
+        description:
+          "Learnify ปรับตัวเข้ากับวิธีการเรียนของคุณ โดยติดตามจุดที่คุณติดขัด ช่วงเวลาที่คุณมีสมาธิดีที่สุด และจังหวะที่เหมาะกับสมองของคุณจริงๆ แล้วปรับทุกช่วงการเรียนรู้ให้เข้ากับคุณ ไม่มีนักเรียนสองคนที่จะเห็นเส้นทางเดียวกัน",
+      },
+      ai: {
+        number: "04.",
+        title: "ขับเคลื่อนด้วย AI ชื่อ Lumi",
+        description:
+          "พบกับ Lumi เพื่อนคู่คิดการเรียนแบบโสกราตีสของ Learnify แทนที่จะบอกคำตอบให้ Lumi จะนำทางคุณด้วยคำถามที่ถูกต้องทีละขั้น เพื่อให้คุณเรียนรู้วิธีแก้โจทย์ข้อต่อไปได้ด้วยตัวเอง",
+      },
+    },
+    pricing: {
+      title: "แผนราคา",
+      subtitle: "เลือกแผนที่เหมาะกับคุณ",
+      billingSuffix: "บาท/เดือน",
+      tiers: {
+        free: { badge: "ฟรี", price: "0", tagline: "สำหรับผู้เริ่มต้น" },
+        pro: { badge: "PRO", price: "149", tagline: "สำหรับผู้เรียนจริงจัง" },
+        ultra: { badge: "ULTRA", price: "249", tagline: "สำหรับผู้ใช้ขั้นสูง" },
+      },
+      features: {
+        activeLearning: "บทเรียนแบบมีส่วนร่วม",
+        unlimitedLearning: "เรียนได้ไม่จำกัด",
+        unlimitedLumi: "ข้อความ Lumi ไม่จำกัด",
+        noAds: "ไม่มีโฆษณา",
+        personalizedPaths: "เส้นทางการเรียนเฉพาะบุคคล",
+        everythingInPro: "ทุกอย่างในแผน Pro",
+        advancedAnalytics: "วิเคราะห์ข้อมูลขั้นสูง",
+        earlyAccess: "เข้าถึงฟีเจอร์ใหม่ก่อนใคร",
+      },
+      cta: "เร็วๆ นี้",
     },
   },
 };
