@@ -195,7 +195,7 @@ export default function Pricing() {
   const { t } = useLanguage();
   const p = t.pricing;
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
