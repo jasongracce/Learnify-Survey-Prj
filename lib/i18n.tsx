@@ -79,6 +79,109 @@ export type Translations = {
     subtitle: string;
     cta: string;
   };
+  surveyPage: {
+    meta: { title: string; backToHome: string };
+    progress: { stepLabel: string };
+    nav: { back: string; next: string; submit: string; submitting: string };
+    step1: {
+      eyebrow: string;
+      headline: string;
+      q1: { label: string; placeholder: string };
+      q2: {
+        label: string;
+        options: {
+          daily: string;
+          severalTimesWeek: string;
+          weekly: string;
+          rarely: string;
+          never: string;
+        };
+      };
+      q3: {
+        label: string;
+        options: {
+          homework: string;
+          examPrep: string;
+          newTopics: string;
+          language: string;
+          curiosity: string;
+          other: string;
+        };
+        otherPlaceholder: string;
+      };
+    };
+    step2: {
+      eyebrow: string;
+      headline: string;
+      q4: {
+        label: string;
+        options: {
+          curriculum: string;
+          ads: string;
+          expensive: string;
+          lowQuality: string;
+          boring: string;
+          noPersonalization: string;
+          hardInThai: string;
+          other: string;
+        };
+        otherPlaceholder: string;
+      };
+      q5: { label: string; minLabel: string; maxLabel: string };
+      q6: { label: string; placeholder: string };
+    };
+    step3: {
+      eyebrow: string;
+      headline: string;
+      blurb: string;
+      q7: { label: string; minLabel: string; maxLabel: string };
+      q8: {
+        label: string;
+        options: {
+          lumi: string;
+          activeLearning: string;
+          thaiCurriculum: string;
+          personalized: string;
+          stats: string;
+          none: string;
+          other: string;
+        };
+        otherPlaceholder: string;
+      };
+      q9: {
+        label: string;
+        options: {
+          price: string;
+          parents: string;
+          alreadyHave: string;
+          dontTrustAi: string;
+          noDevice: string;
+          nothing: string;
+          other: string;
+        };
+        otherPlaceholder: string;
+      };
+      q10: { label: string; placeholder: string };
+    };
+    thankYou: {
+      heading: string;
+      subheading: string;
+      emailLabel: string;
+      emailPlaceholder: string;
+      waitlistCta: string;
+      skipCta: string;
+      successHeading: string;
+      successBody: string;
+      skippedBody: string;
+      backToHome: string;
+    };
+    errors: {
+      submitFailed: string;
+      emailInvalid: string;
+      emailDuplicate: string;
+      emailFailed: string;
+    };
+  };
 };
 
 const translations: Record<Language, Translations> = {
@@ -189,6 +292,136 @@ const translations: Record<Language, Translations> = {
         "Take our short survey and tell us what you need from a learning platform built for Thai students. Every answer helps us build the beta right.",
       cta: "Answer Survey",
     },
+    surveyPage: {
+      meta: {
+        title: "Learnify Survey",
+        backToHome: "← Back to home",
+      },
+      progress: { stepLabel: "Step {current} of {total}" },
+      nav: {
+        back: "← Back",
+        next: "Next →",
+        submit: "Submit",
+        submitting: "Submitting…",
+      },
+      step1: {
+        eyebrow: "CURRENT TOOLS",
+        headline: "What do you use now?",
+        q1: {
+          label: "Which learning tools do you currently use?",
+          placeholder: "e.g. Khan Academy, YouTube, QANDA…",
+        },
+        q2: {
+          label: "How often do you use them?",
+          options: {
+            daily: "Daily",
+            severalTimesWeek: "Several times a week",
+            weekly: "Weekly",
+            rarely: "Rarely",
+            never: "Never",
+          },
+        },
+        q3: {
+          label: "What do you mainly use them for?",
+          options: {
+            homework: "School homework",
+            examPrep: "Exam prep (O-NET / TGAT / TCAS)",
+            newTopics: "Learning new topics",
+            language: "Language learning",
+            curiosity: "General curiosity",
+            other: "Other",
+          },
+          otherPlaceholder: "Tell us more",
+        },
+      },
+      step2: {
+        eyebrow: "PAIN POINTS",
+        headline: "What's missing?",
+        q4: {
+          label: "Biggest frustration with your current tools?",
+          options: {
+            curriculum: "Content doesn't match Thai curriculum",
+            ads: "Too many ads",
+            expensive: "Too expensive",
+            lowQuality: "Low-quality content",
+            boring: "Boring / not engaging",
+            noPersonalization: "No personalization",
+            hardInThai: "Hard to follow in Thai",
+            other: "Other",
+          },
+          otherPlaceholder: "Tell us more",
+        },
+        q5: {
+          label: "How well do they match the Thai curriculum?",
+          minLabel: "Not at all",
+          maxLabel: "Perfectly",
+        },
+        q6: {
+          label: "What do you wish existed that doesn't?",
+          placeholder: "Tell us anything you've been wanting",
+        },
+      },
+      step3: {
+        eyebrow: "LEARNIFY",
+        headline: "What do you think?",
+        blurb:
+          "Learnify is a Thai-first learning platform built for high-school students — active lessons, Lumi (an AI tutor), and personalized paths that follow the Thai curriculum.",
+        q7: {
+          label: "How likely are you to try Learnify?",
+          minLabel: "Not likely",
+          maxLabel: "Definitely will try",
+        },
+        q8: {
+          label: "Which feature excites you most?",
+          options: {
+            lumi: "AI tutor (Lumi)",
+            activeLearning: "Active learning / quiz-based lessons",
+            thaiCurriculum: "Thai curriculum focus",
+            personalized: "Personalized learning paths",
+            stats: "Progress stats",
+            none: "None",
+            other: "Other",
+          },
+          otherPlaceholder: "Tell us more",
+        },
+        q9: {
+          label: "What would stop you from using it?",
+          options: {
+            price: "Price",
+            parents: "Parents wouldn't pay",
+            alreadyHave: "I already have something similar",
+            dontTrustAi: "Don't trust AI for learning",
+            noDevice: "Don't have reliable device/wifi",
+            nothing: "Nothing",
+            other: "Other",
+          },
+          otherPlaceholder: "Tell us more",
+        },
+        q10: {
+          label: "Anything else we should know?",
+          placeholder: "Open mic — say anything",
+        },
+      },
+      thankYou: {
+        heading: "Thanks for helping us build Learnify",
+        subheading:
+          "Want early access when the beta launches? Drop your email.",
+        emailLabel: "Email",
+        emailPlaceholder: "you@example.com",
+        waitlistCta: "Join the waitlist",
+        skipCta: "Skip",
+        successHeading: "You're on the list",
+        successBody: "We'll email you when the beta opens.",
+        skippedBody: "Thanks again for your answers.",
+        backToHome: "← Back to home",
+      },
+      errors: {
+        submitFailed: "Couldn't submit — please try again.",
+        emailInvalid: "Please enter a valid email.",
+        emailDuplicate: "Looks like you're already on the list!",
+        emailFailed: "Couldn't save your email — please try again.",
+      },
+    },
   },
   th: {
     nav: {
@@ -296,6 +529,135 @@ const translations: Record<Language, Translations> = {
       subtitle:
         "ตอบแบบสอบถามสั้นๆ แล้วบอกเราว่าคุณต้องการอะไรจากแพลตฟอร์มการเรียนที่สร้างมาเพื่อนักเรียนไทย ทุกคำตอบช่วยให้เราพัฒนาเบต้าได้ตรงจุด",
       cta: "ตอบแบบสอบถาม",
+    },
+    surveyPage: {
+      meta: {
+        title: "แบบสอบถาม Learnify",
+        backToHome: "← กลับหน้าแรก",
+      },
+      progress: { stepLabel: "ขั้นที่ {current} จาก {total}" },
+      nav: {
+        back: "← ย้อนกลับ",
+        next: "ถัดไป →",
+        submit: "ส่งคำตอบ",
+        submitting: "กำลังส่ง…",
+      },
+      step1: {
+        eyebrow: "เครื่องมือปัจจุบัน",
+        headline: "ตอนนี้คุณใช้อะไรอยู่?",
+        q1: {
+          label: "คุณใช้เครื่องมือการเรียนรู้อะไรอยู่ในตอนนี้?",
+          placeholder: "เช่น Khan Academy, YouTube, QANDA…",
+        },
+        q2: {
+          label: "ใช้บ่อยแค่ไหน?",
+          options: {
+            daily: "ทุกวัน",
+            severalTimesWeek: "หลายครั้งต่อสัปดาห์",
+            weekly: "สัปดาห์ละครั้ง",
+            rarely: "นานๆ ครั้ง",
+            never: "ไม่ได้ใช้",
+          },
+        },
+        q3: {
+          label: "ส่วนใหญ่ใช้เพื่ออะไร?",
+          options: {
+            homework: "การบ้าน",
+            examPrep: "เตรียมสอบ (O-NET / TGAT / TCAS)",
+            newTopics: "เรียนเรื่องใหม่ๆ",
+            language: "ภาษา",
+            curiosity: "ความอยากรู้ทั่วไป",
+            other: "อื่นๆ",
+          },
+          otherPlaceholder: "บอกเพิ่มเติม",
+        },
+      },
+      step2: {
+        eyebrow: "ปัญหาที่เจอ",
+        headline: "ขาดอะไรไปบ้าง?",
+        q4: {
+          label: "อะไรที่ทำให้คุณหงุดหงิดที่สุดกับเครื่องมือในตอนนี้?",
+          options: {
+            curriculum: "เนื้อหาไม่ตรงหลักสูตรไทย",
+            ads: "โฆษณาเยอะเกินไป",
+            expensive: "แพงเกินไป",
+            lowQuality: "เนื้อหาคุณภาพต่ำ",
+            boring: "น่าเบื่อ / ไม่น่าสนใจ",
+            noPersonalization: "ไม่มีการปรับให้เฉพาะตัว",
+            hardInThai: "ฟังภาษาไทยยาก",
+            other: "อื่นๆ",
+          },
+          otherPlaceholder: "บอกเพิ่มเติม",
+        },
+        q5: {
+          label: "เครื่องมือปัจจุบันตรงกับหลักสูตรไทยดีแค่ไหน?",
+          minLabel: "ไม่ตรงเลย",
+          maxLabel: "ตรงเป๊ะ",
+        },
+        q6: {
+          label: "อยากให้มีอะไรที่ตอนนี้ยังไม่มี?",
+          placeholder: "บอกสิ่งที่คุณอยากได้",
+        },
+      },
+      step3: {
+        eyebrow: "LEARNIFY",
+        headline: "คิดยังไงกับ Learnify?",
+        blurb:
+          "Learnify คือแพลตฟอร์มการเรียนรู้ที่สร้างเพื่อคนไทยโดยเฉพาะ — บทเรียนแบบ active, Lumi (AI ติวเตอร์) และเส้นทางการเรียนที่ปรับให้เหมาะกับแต่ละคนตามหลักสูตรไทย",
+        q7: {
+          label: "มีแนวโน้มจะลอง Learnify แค่ไหน?",
+          minLabel: "ไม่น่าจะลอง",
+          maxLabel: "ลองแน่ๆ",
+        },
+        q8: {
+          label: "ฟีเจอร์ไหนที่ทำให้คุณตื่นเต้นที่สุด?",
+          options: {
+            lumi: "AI ติวเตอร์ (Lumi)",
+            activeLearning: "Active Learning / บทเรียนแบบมีโจทย์",
+            thaiCurriculum: "เน้นหลักสูตรไทย",
+            personalized: "เส้นทางการเรียนเฉพาะตัว",
+            stats: "ติดตามสถิติ",
+            none: "ไม่มีเลย",
+            other: "อื่นๆ",
+          },
+          otherPlaceholder: "บอกเพิ่มเติม",
+        },
+        q9: {
+          label: "อะไรที่อาจทำให้คุณไม่ใช้ Learnify?",
+          options: {
+            price: "ราคา",
+            parents: "พ่อแม่ไม่จ่าย",
+            alreadyHave: "มีอะไรคล้ายๆ อยู่แล้ว",
+            dontTrustAi: "ไม่ไว้ใจ AI ในการเรียน",
+            noDevice: "ไม่มีอุปกรณ์หรือเน็ตที่ดี",
+            nothing: "ไม่มีเลย",
+            other: "อื่นๆ",
+          },
+          otherPlaceholder: "บอกเพิ่มเติม",
+        },
+        q10: {
+          label: "อยากบอกอะไรเราอีก?",
+          placeholder: "พูดอะไรก็ได้",
+        },
+      },
+      thankYou: {
+        heading: "ขอบคุณที่ช่วยสร้าง Learnify",
+        subheading: "อยากเข้าถึงก่อนใครตอนเปิดเบต้าไหม? ใส่อีเมลไว้ได้เลย",
+        emailLabel: "อีเมล",
+        emailPlaceholder: "you@example.com",
+        waitlistCta: "สมัครรอคิว",
+        skipCta: "ข้าม",
+        successHeading: "คุณอยู่ในคิวแล้ว",
+        successBody: "เราจะส่งอีเมลให้ตอนเบต้าเปิด",
+        skippedBody: "ขอบคุณอีกครั้งสำหรับคำตอบ",
+        backToHome: "← กลับหน้าแรก",
+      },
+      errors: {
+        submitFailed: "ส่งไม่สำเร็จ — ลองอีกครั้ง",
+        emailInvalid: "กรุณากรอกอีเมลที่ถูกต้อง",
+        emailDuplicate: "ดูเหมือนคุณจะอยู่ในคิวแล้ว!",
+        emailFailed: "บันทึกอีเมลไม่สำเร็จ — ลองอีกครั้ง",
+      },
     },
   },
 };
