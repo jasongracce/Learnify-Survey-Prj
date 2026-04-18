@@ -180,7 +180,6 @@ export function GlobeWithThailandPin({
       <div
         style={{
           position: "absolute",
-          // @ts-expect-error CSS Anchor Positioning
           positionAnchor: `--cobe-${MARKER_ID}`,
           bottom: "anchor(top)",
           left: "anchor(center)",
