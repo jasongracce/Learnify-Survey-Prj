@@ -53,7 +53,7 @@ export default function FeatureLocalised() {
                 aria-hidden
               />
             </div>
-            <GlobeWithThailandPin />
+            <GlobeWithThailandPin speed={0.008} />
           </div>
         </motion.div>
       </div>
