@@ -56,6 +56,7 @@ export type Q9Option = (typeof Q9_OPTIONS)[number];
 
 export type FormState = {
   respondent_name: string;
+  email: string;
   q1_tools_used: string;
   q2_frequency: Q2Option | "";
   q3_use_cases: Q3Option[];
@@ -74,6 +75,7 @@ export type FormState = {
 
 export const INITIAL_FORM: FormState = {
   respondent_name: "",
+  email: "",
   q1_tools_used: "",
   q2_frequency: "",
   q3_use_cases: [],
@@ -92,8 +94,14 @@ export const INITIAL_FORM: FormState = {
 
 export const TOTAL_QUESTIONS = 10;
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function isWelcomeValid(form: FormState): boolean {
   return form.respondent_name.trim().length > 0;
+}
+
+export function isEmailValid(form: FormState): boolean {
+  return EMAIL_RE.test(form.email.trim());
 }
 
 export function canAdvance(step: number, form: FormState): boolean {
