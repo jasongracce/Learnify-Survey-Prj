@@ -89,7 +89,10 @@ export type Translations = {
       nameQuestion: string;
       namePlaceholder: string;
       getStarted: string;
-      thanksMessage: string;
+      emailQuestion: string;
+      emailPlaceholder: string;
+      emailContinue: string;
+      emailInvalid: string;
       letsGetStarted: string;
     };
     step1: {
@@ -174,21 +177,11 @@ export type Translations = {
     };
     thankYou: {
       heading: string;
-      subheading: string;
-      emailLabel: string;
-      emailPlaceholder: string;
-      waitlistCta: string;
-      skipCta: string;
-      successHeading: string;
-      successBody: string;
-      skippedBody: string;
+      body: string;
       backToHome: string;
     };
     errors: {
       submitFailed: string;
-      emailInvalid: string;
-      emailDuplicate: string;
-      emailFailed: string;
     };
   };
 };
@@ -319,7 +312,10 @@ const translations: Record<Language, Translations> = {
         nameQuestion: "What's your name?",
         namePlaceholder: "Your name",
         getStarted: "Get Started →",
-        thanksMessage: "Hey {name}! Thanks for partaking in the Survey.",
+        emailQuestion: "What's your email?",
+        emailPlaceholder: "you@example.com",
+        emailContinue: "Continue →",
+        emailInvalid: "Please enter a valid email.",
         letsGetStarted: "Let's get started!",
       },
       step1: {
@@ -422,22 +418,11 @@ const translations: Record<Language, Translations> = {
       },
       thankYou: {
         heading: "Thanks, {name} — you're helping us build Learnify",
-        subheading:
-          "Want early access when the beta launches? Drop your email.",
-        emailLabel: "Email",
-        emailPlaceholder: "you@example.com",
-        waitlistCta: "Join the waitlist",
-        skipCta: "Skip",
-        successHeading: "You're on the list",
-        successBody: "We'll email you when the beta opens.",
-        skippedBody: "Thanks again for your answers.",
+        body: "We'll email you when the beta opens.",
         backToHome: "← Back to home",
       },
       errors: {
         submitFailed: "Couldn't submit — please try again.",
-        emailInvalid: "Please enter a valid email.",
-        emailDuplicate: "Looks like you're already on the list!",
-        emailFailed: "Couldn't save your email — please try again.",
       },
     },
   },
@@ -566,7 +551,10 @@ const translations: Record<Language, Translations> = {
         nameQuestion: "คุณชื่ออะไร?",
         namePlaceholder: "ชื่อของคุณ",
         getStarted: "เริ่มต้น →",
-        thanksMessage: "สวัสดี {name}! ขอบคุณที่ร่วมทำแบบสอบถามนะ",
+        emailQuestion: "อีเมลของคุณคืออะไร?",
+        emailPlaceholder: "you@example.com",
+        emailContinue: "ต่อไป →",
+        emailInvalid: "กรุณากรอกอีเมลที่ถูกต้อง",
         letsGetStarted: "เริ่มกันเลย!",
       },
       step1: {
@@ -669,21 +657,11 @@ const translations: Record<Language, Translations> = {
       },
       thankYou: {
         heading: "ขอบคุณ {name} — คุณช่วยเราสร้าง Learnify",
-        subheading: "อยากเข้าถึงก่อนใครตอนเปิดเบต้าไหม? ใส่อีเมลไว้ได้เลย",
-        emailLabel: "อีเมล",
-        emailPlaceholder: "you@example.com",
-        waitlistCta: "สมัครรอคิว",
-        skipCta: "ข้าม",
-        successHeading: "คุณอยู่ในคิวแล้ว",
-        successBody: "เราจะส่งอีเมลให้ตอนเบต้าเปิด",
-        skippedBody: "ขอบคุณอีกครั้งสำหรับคำตอบ",
+        body: "เราจะส่งอีเมลให้ตอนเบต้าเปิด",
         backToHome: "← กลับหน้าแรก",
       },
       errors: {
         submitFailed: "ส่งไม่สำเร็จ — ลองอีกครั้ง",
-        emailInvalid: "กรุณากรอกอีเมลที่ถูกต้อง",
-        emailDuplicate: "ดูเหมือนคุณจะอยู่ในคิวแล้ว!",
-        emailFailed: "บันทึกอีเมลไม่สำเร็จ — ลองอีกครั้ง",
       },
     },
   },
