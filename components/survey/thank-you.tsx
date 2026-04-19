@@ -7,16 +7,19 @@ import { getSupabase } from "@/lib/supabase";
 
 type Props = {
   responseId: string | null;
+  name: string;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Stage = "capture" | "success" | "skipped";
 
-export default function ThankYou({ responseId }: Props) {
+export default function ThankYou({ responseId, name }: Props) {
   const { t } = useLanguage();
   const ty = t.surveyPage.thankYou;
   const err = t.surveyPage.errors;
+
+  const heading = ty.heading.replace("{name}", name);
 
   const [stage, setStage] = useState<Stage>("capture");
   const [email, setEmail] = useState("");
@@ -71,7 +74,7 @@ export default function ThankYou({ responseId }: Props) {
       </svg>
 
       <h1 className="mt-6 text-3xl font-bold tracking-tight text-[#1a1a1a] md:text-4xl">
-        {ty.heading}
+        {heading}
       </h1>
       <div className="mt-5 h-0.5 w-12 bg-[#1a1a1a]" aria-hidden />
 

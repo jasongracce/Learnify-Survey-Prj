@@ -1,51 +1,57 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Header from "@/components/landing/header";
 import Nav from "@/components/survey/nav";
 import Progress from "@/components/survey/progress";
-import Step1 from "@/components/survey/step1";
-import Step2 from "@/components/survey/step2";
-import Step3 from "@/components/survey/step3";
+import Welcome from "@/components/survey/welcome";
+import Q1 from "@/components/survey/questions/q1";
+import Q2 from "@/components/survey/questions/q2";
+import Q3 from "@/components/survey/questions/q3";
+import Q4 from "@/components/survey/questions/q4";
+import Q5 from "@/components/survey/questions/q5";
+import Q6 from "@/components/survey/questions/q6";
+import Q7 from "@/components/survey/questions/q7";
+import Q8 from "@/components/survey/questions/q8";
+import Q9 from "@/components/survey/questions/q9";
+import Q10 from "@/components/survey/questions/q10";
 import ThankYou from "@/components/survey/thank-you";
 import {
   INITIAL_FORM,
+  TOTAL_QUESTIONS,
   type FormState,
-  isStep1Valid,
-  isStep2Valid,
-  isStep3Valid,
+  canAdvance,
+  isWelcomeValid,
 } from "@/components/survey/types";
 import { useLanguage } from "@/lib/i18n";
 import { getSupabase } from "@/lib/supabase";
 
-type Step = 1 | 2 | 3 | 4;
+const THANK_YOU_STEP = TOTAL_QUESTIONS + 1;
 
 export default function SurveyPage() {
   const { t, language } = useLanguage();
   const sp = t.surveyPage;
 
-  const [step, setStep] = useState<Step>(1);
+  const [step, setStep] = useState<number>(0);
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [responseId, setResponseId] = useState<string | null>(null);
 
-  const canProceed =
-    (step === 1 && isStep1Valid(form)) ||
-    (step === 2 && isStep2Valid(form)) ||
-    (step === 3 && isStep3Valid(form));
+  const isQuestion = step >= 1 && step <= TOTAL_QUESTIONS;
+  const isLastQuestion = step === TOTAL_QUESTIONS;
+  const canProceed = isQuestion && canAdvance(step, form);
 
   const goNext = () => {
-    if (step < 3) {
-      setStep((s) => (s + 1) as Step);
-    }
+    if (step < TOTAL_QUESTIONS) setStep((s) => s + 1);
   };
 
   const goBack = () => {
-    if (step > 1 && step <= 3) {
-      setStep((s) => (s - 1) as Step);
-    }
+    if (step > 1 && step <= TOTAL_QUESTIONS) setStep((s) => s - 1);
   };
+
+  const leaveWelcome = () => setStep(1);
 
   const submit = async () => {
     setSubmitError(null);
@@ -56,12 +62,14 @@ export default function SurveyPage() {
         .from("survey_responses")
         .insert({
           language,
+          respondent_name: form.respondent_name.trim(),
           q1_tools_used: form.q1_tools_used.trim(),
           q2_frequency: form.q2_frequency || null,
           q3_use_cases:
             form.q3_use_cases.length > 0 ? form.q3_use_cases : null,
           q3_other: form.q3_other.trim() || null,
-          q4_frustration: form.q4_frustration || null,
+          q4_frustrations:
+            form.q4_frustrations.length > 0 ? form.q4_frustrations : null,
           q4_other: form.q4_other.trim() || null,
           q5_curriculum_fit: form.q5_curriculum_fit,
           q6_wish: form.q6_wish.trim() || null,
@@ -81,7 +89,7 @@ export default function SurveyPage() {
       }
       setResponseId(data.id as string);
       setIsSubmitting(false);
-      setStep(4);
+      setStep(THANK_YOU_STEP);
     } catch {
       setSubmitError(sp.errors.submitFailed);
       setIsSubmitting(false);
@@ -92,42 +100,97 @@ export default function SurveyPage() {
     <div className="min-h-screen bg-[#f9f9f7]">
       <Header simplified />
       <main className="mx-auto max-w-2xl px-6 py-16 md:py-24">
-        {step < 4 ? (
-          <>
-            <Progress
-              current={step}
-              total={3}
-              stepLabelTemplate={sp.progress.stepLabel}
-            />
+        <AnimatePresence mode="wait">
+          {step === 0 && (
+            <motion.div
+              key="welcome"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <Welcome
+                form={form}
+                setForm={setForm}
+                onContinue={leaveWelcome}
+                canContinue={isWelcomeValid(form)}
+              />
+            </motion.div>
+          )}
 
-            <div className="mt-12">
-              {step === 1 && <Step1 form={form} setForm={setForm} />}
-              {step === 2 && <Step2 form={form} setForm={setForm} />}
-              {step === 3 && <Step3 form={form} setForm={setForm} />}
-            </div>
+          {isQuestion && (
+            <motion.div
+              key="questions"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <Progress
+                current={step}
+                total={TOTAL_QUESTIONS}
+                stepLabelTemplate={sp.progress.stepLabel}
+              />
 
-            {step === 3 && submitError && (
-              <p className="mt-6 text-sm text-[#c13b3b]">{submitError}</p>
-            )}
+              <div className="mt-12">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`q${step}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    {step === 1 && <Q1 form={form} setForm={setForm} />}
+                    {step === 2 && <Q2 form={form} setForm={setForm} />}
+                    {step === 3 && <Q3 form={form} setForm={setForm} />}
+                    {step === 4 && <Q4 form={form} setForm={setForm} />}
+                    {step === 5 && <Q5 form={form} setForm={setForm} />}
+                    {step === 6 && <Q6 form={form} setForm={setForm} />}
+                    {step === 7 && <Q7 form={form} setForm={setForm} />}
+                    {step === 8 && <Q8 form={form} setForm={setForm} />}
+                    {step === 9 && <Q9 form={form} setForm={setForm} />}
+                    {step === 10 && <Q10 form={form} setForm={setForm} />}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
 
-            <Nav
-              onBack={step > 1 ? goBack : undefined}
-              onNext={step === 3 ? submit : goNext}
-              backLabel={sp.nav.back}
-              nextLabel={
-                step === 3
-                  ? isSubmitting
-                    ? sp.nav.submitting
-                    : sp.nav.submit
-                  : sp.nav.next
-              }
-              nextDisabled={!canProceed}
-              isSubmitting={isSubmitting}
-            />
-          </>
-        ) : (
-          <ThankYou responseId={responseId} />
-        )}
+              {isLastQuestion && submitError && (
+                <p className="mt-6 text-sm text-[#c13b3b]">{submitError}</p>
+              )}
+
+              <Nav
+                onBack={step > 1 ? goBack : undefined}
+                onNext={isLastQuestion ? submit : goNext}
+                backLabel={sp.nav.back}
+                nextLabel={
+                  isLastQuestion
+                    ? isSubmitting
+                      ? sp.nav.submitting
+                      : sp.nav.submit
+                    : sp.nav.next
+                }
+                nextDisabled={!canProceed}
+                isSubmitting={isSubmitting}
+              />
+            </motion.div>
+          )}
+
+          {step === THANK_YOU_STEP && (
+            <motion.div
+              key="thank-you"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <ThankYou
+                responseId={responseId}
+                name={form.respondent_name.trim()}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </div>
   );

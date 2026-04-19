@@ -83,6 +83,15 @@ export type Translations = {
     meta: { title: string; backToHome: string };
     progress: { stepLabel: string };
     nav: { back: string; next: string; submit: string; submitting: string };
+    welcome: {
+      greetingPrefix: string;
+      greetingTitle: string;
+      nameQuestion: string;
+      namePlaceholder: string;
+      getStarted: string;
+      thanksMessage: string;
+      letsGetStarted: string;
+    };
     step1: {
       eyebrow: string;
       headline: string;
@@ -304,6 +313,15 @@ const translations: Record<Language, Translations> = {
         submit: "Submit",
         submitting: "Submitting…",
       },
+      welcome: {
+        greetingPrefix: "Welcome to the",
+        greetingTitle: "Learnify Survey",
+        nameQuestion: "What's your name?",
+        namePlaceholder: "Your name",
+        getStarted: "Get Started →",
+        thanksMessage: "Hey {name}! Thanks for partaking in the Survey.",
+        letsGetStarted: "Let's get started!",
+      },
       step1: {
         eyebrow: "CURRENT TOOLS",
         headline: "What do you use now?",
@@ -403,7 +421,7 @@ const translations: Record<Language, Translations> = {
         },
       },
       thankYou: {
-        heading: "Thanks for helping us build Learnify",
+        heading: "Thanks, {name} — you're helping us build Learnify",
         subheading:
           "Want early access when the beta launches? Drop your email.",
         emailLabel: "Email",
@@ -542,6 +560,15 @@ const translations: Record<Language, Translations> = {
         submit: "ส่งคำตอบ",
         submitting: "กำลังส่ง…",
       },
+      welcome: {
+        greetingPrefix: "ยินดีต้อนรับสู่",
+        greetingTitle: "แบบสอบถาม Learnify",
+        nameQuestion: "คุณชื่ออะไร?",
+        namePlaceholder: "ชื่อของคุณ",
+        getStarted: "เริ่มต้น →",
+        thanksMessage: "สวัสดี {name}! ขอบคุณที่ร่วมทำแบบสอบถามนะ",
+        letsGetStarted: "เริ่มกันเลย!",
+      },
       step1: {
         eyebrow: "เครื่องมือปัจจุบัน",
         headline: "ตอนนี้คุณใช้อะไรอยู่?",
@@ -641,7 +668,7 @@ const translations: Record<Language, Translations> = {
         },
       },
       thankYou: {
-        heading: "ขอบคุณที่ช่วยสร้าง Learnify",
+        heading: "ขอบคุณ {name} — คุณช่วยเราสร้าง Learnify",
         subheading: "อยากเข้าถึงก่อนใครตอนเปิดเบต้าไหม? ใส่อีเมลไว้ได้เลย",
         emailLabel: "อีเมล",
         emailPlaceholder: "you@example.com",

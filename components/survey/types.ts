@@ -55,11 +55,12 @@ export const Q9_OPTIONS = [
 export type Q9Option = (typeof Q9_OPTIONS)[number];
 
 export type FormState = {
+  respondent_name: string;
   q1_tools_used: string;
   q2_frequency: Q2Option | "";
   q3_use_cases: Q3Option[];
   q3_other: string;
-  q4_frustration: Q4Option | "";
+  q4_frustrations: Q4Option[];
   q4_other: string;
   q5_curriculum_fit: number | null;
   q6_wish: string;
@@ -72,11 +73,12 @@ export type FormState = {
 };
 
 export const INITIAL_FORM: FormState = {
+  respondent_name: "",
   q1_tools_used: "",
   q2_frequency: "",
   q3_use_cases: [],
   q3_other: "",
-  q4_frustration: "",
+  q4_frustrations: [],
   q4_other: "",
   q5_curriculum_fit: null,
   q6_wish: "",
@@ -88,14 +90,15 @@ export const INITIAL_FORM: FormState = {
   q10_extra: "",
 };
 
-export function isStep1Valid(form: FormState): boolean {
-  return form.q1_tools_used.trim().length > 0;
+export const TOTAL_QUESTIONS = 10;
+
+export function isWelcomeValid(form: FormState): boolean {
+  return form.respondent_name.trim().length > 0;
 }
 
-export function isStep2Valid(_form: FormState): boolean {
-  return true; // no required fields on step 2
-}
-
-export function isStep3Valid(form: FormState): boolean {
-  return form.q7_try_likelihood !== null && form.q8_top_feature !== "";
+export function canAdvance(step: number, form: FormState): boolean {
+  if (step === 1) return form.q1_tools_used.trim().length > 0;
+  if (step === 7) return form.q7_try_likelihood !== null;
+  if (step === 8) return form.q8_top_feature !== "";
+  return step >= 1 && step <= TOTAL_QUESTIONS;
 }
