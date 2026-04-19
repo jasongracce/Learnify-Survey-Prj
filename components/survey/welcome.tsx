@@ -108,6 +108,7 @@ export default function Welcome({ form, setForm, onContinue }: Props) {
         {phase === "email-form" && (
           <motion.form
             key="email-form"
+            noValidate
             onSubmit={handleEmailSubmit}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
