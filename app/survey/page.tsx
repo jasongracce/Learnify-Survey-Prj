@@ -22,7 +22,6 @@ import {
   TOTAL_QUESTIONS,
   type FormState,
   canAdvance,
-  isWelcomeValid,
 } from "@/components/survey/types";
 import { useLanguage } from "@/lib/i18n";
 import { getSupabase } from "@/lib/supabase";
@@ -87,7 +86,17 @@ export default function SurveyPage() {
         setIsSubmitting(false);
         return;
       }
-      setResponseId(data.id as string);
+
+      const newResponseId = data.id as string;
+
+      const { error: betaError } = await supabase
+        .from("beta_signups")
+        .insert({ email: form.email.trim(), response_id: newResponseId });
+      if (betaError && betaError.code !== "23505") {
+        console.error("beta_signups insert failed:", betaError);
+      }
+
+      setResponseId(newResponseId);
       setIsSubmitting(false);
       setStep(THANK_YOU_STEP);
     } catch {
@@ -113,7 +122,6 @@ export default function SurveyPage() {
                 form={form}
                 setForm={setForm}
                 onContinue={leaveWelcome}
-                canContinue={isWelcomeValid(form)}
               />
             </motion.div>
           )}
