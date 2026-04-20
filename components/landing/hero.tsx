@@ -16,11 +16,12 @@ function TextRotate({
 }) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
-
-  useEffect(() => {
+  const [prevTexts, setPrevTexts] = useState(texts);
+  if (prevTexts !== texts) {
+    setPrevTexts(texts);
     setIndex(0);
     setVisible(true);
-  }, [texts]);
+  }
 
   useEffect(() => {
     if (texts.length === 0) return;

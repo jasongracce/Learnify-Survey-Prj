@@ -7,16 +7,14 @@ export function useVisibilityPause<T extends Element = HTMLDivElement>(
   rootMargin: string = "200px 0px",
 ) {
   const ref = useRef<T>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(
+    () => typeof IntersectionObserver === "undefined",
+  );
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    if (typeof IntersectionObserver === "undefined") {
-      setIsVisible(true);
-      return;
-    }
+    if (typeof IntersectionObserver === "undefined") return;
 
     const observer = new IntersectionObserver(
       (entries) => {
