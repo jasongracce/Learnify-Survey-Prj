@@ -1,35 +1,84 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
 import { GlobeWithThailandPin } from "@/components/ui/cobe-globe-thailand-pin";
+import Reveal from "./reveal";
+import { useVisibilityPause } from "@/lib/use-visibility-pause";
+
+function StaticGlobe() {
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-sm select-none">
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle at 35% 30%, #ffffff 0%, #f0f5fb 45%, #d6e3ef 75%, #b9c9d9 100%)",
+          boxShadow: "inset -20px -30px 80px rgba(0,0,0,0.12)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle at 30% 25%, rgba(255,255,255,0.6) 0%, transparent 40%)",
+        }}
+        aria-hidden
+      />
+      {/* Thai flag pin marker, roughly centered */}
+      <div
+        className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-full"
+        style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.22))" }}
+        aria-hidden
+      >
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: "50%",
+            boxShadow: "0 0 0 3px #ffffff",
+            background: `linear-gradient(
+              to bottom,
+              #A51931 0%, #A51931 16.67%,
+              #F4F5F8 16.67%, #F4F5F8 33.33%,
+              #2D2A4A 33.33%, #2D2A4A 66.67%,
+              #F4F5F8 66.67%, #F4F5F8 83.33%,
+              #A51931 83.33%, #A51931 100%
+            )`,
+          }}
+        />
+        <div
+          style={{
+            width: 0,
+            height: 0,
+            margin: "2px auto 0",
+            borderLeft: "5px solid transparent",
+            borderRight: "5px solid transparent",
+            borderTop: "7px solid #ffffff",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function DesktopGlobe() {
+  const { ref, isVisible } = useVisibilityPause<HTMLDivElement>();
+  return (
+    <div ref={ref} className="w-full">
+      <GlobeWithThailandPin speed={0.008} enabled={isVisible} />
+    </div>
+  );
+}
 
 export default function FeatureLocalised() {
   const { t } = useLanguage();
   const feature = t.features.localised;
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "center start"],
-  });
-
-  const textY = useTransform(scrollYProgress, [0, 0.5], [40, 0]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const globeScale = useTransform(scrollYProgress, [0.1, 0.7], [0.85, 1]);
-  const globeOpacity = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full overflow-hidden bg-[#f9f9f7] py-24 md:py-32"
-    >
+    <section className="relative w-full overflow-hidden bg-[#f9f9f7] py-16 md:py-28">
       <div className="mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
-        <motion.div
-          style={{ y: textY, opacity: textOpacity }}
-          className="flex flex-col items-center"
-        >
+        <Reveal className="flex flex-col items-center">
           <span className="text-sm font-bold tracking-[0.2em] text-[#6b6b6b]">
             {feature.number}
           </span>
@@ -40,12 +89,9 @@ export default function FeatureLocalised() {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-[#6b6b6b] sm:text-lg">
             {feature.description}
           </p>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          style={{ scale: globeScale, opacity: globeOpacity }}
-          className="mt-12 w-full max-w-lg"
-        >
+        <Reveal delay={150} className="mt-12 w-full max-w-lg">
           <div className="relative">
             <div className="pointer-events-none absolute inset-0 -z-10">
               <div
@@ -53,9 +99,15 @@ export default function FeatureLocalised() {
                 aria-hidden
               />
             </div>
-            <GlobeWithThailandPin speed={0.008} />
+            {/* Mobile: static placeholder. Desktop: live cobe globe. */}
+            <div className="md:hidden">
+              <StaticGlobe />
+            </div>
+            <div className="hidden md:block">
+              <DesktopGlobe />
+            </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );
