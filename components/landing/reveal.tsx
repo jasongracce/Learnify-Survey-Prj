@@ -17,7 +17,7 @@ export default function Reveal({
   className = "",
   children,
 }: Props) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<Element>(null);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
