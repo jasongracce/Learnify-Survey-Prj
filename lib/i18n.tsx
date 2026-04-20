@@ -93,6 +93,8 @@ export type Translations = {
       emailPlaceholder: string;
       emailContinue: string;
       emailInvalid: string;
+      thanksLine1: string;
+      thanksLine2: string;
       letsGetStarted: string;
     };
     step1: {
@@ -316,13 +318,15 @@ const translations: Record<Language, Translations> = {
         emailPlaceholder: "you@example.com",
         emailContinue: "Continue →",
         emailInvalid: "Please enter a valid email.",
+        thanksLine1: "Hey {name}! Thanks for partaking in the",
+        thanksLine2: "Learnify Survey!",
         letsGetStarted: "Let's get started!",
       },
       step1: {
         eyebrow: "CURRENT TOOLS",
         headline: "What do you use now?",
         q1: {
-          label: "Which learning tools do you currently use?",
+          label: "Which digital learning tools do you currently use?",
           placeholder: "e.g. Khan Academy, YouTube, QANDA…",
         },
         q2: {
@@ -555,13 +559,15 @@ const translations: Record<Language, Translations> = {
         emailPlaceholder: "you@example.com",
         emailContinue: "ต่อไป →",
         emailInvalid: "กรุณากรอกอีเมลที่ถูกต้อง",
+        thanksLine1: "สวัสดี {name}! ขอบคุณที่ร่วมทำ",
+        thanksLine2: "Learnify Survey!",
         letsGetStarted: "เริ่มกันเลย!",
       },
       step1: {
         eyebrow: "เครื่องมือปัจจุบัน",
         headline: "ตอนนี้คุณใช้อะไรอยู่?",
         q1: {
-          label: "คุณใช้เครื่องมือการเรียนรู้อะไรอยู่ในตอนนี้?",
+          label: "คุณใช้เครื่องมือการเรียนรู้ดิจิทัลอะไรอยู่ในตอนนี้?",
           placeholder: "เช่น Khan Academy, YouTube, QANDA…",
         },
         q2: {

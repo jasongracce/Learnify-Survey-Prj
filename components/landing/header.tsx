@@ -51,7 +51,9 @@ export default function Header({ simplified = false }: Props) {
             {/* CTA + Language */}
             <div className="hidden items-center gap-3 md:flex">
               <a
-                href="#waitlist"
+                href="/survey"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-full border border-[#1a1a1a] px-5 py-2 text-sm font-medium text-[#1a1a1a] transition-all hover:bg-[#1a1a1a] hover:text-white"
               >
                 {t.joinWaitlist}
@@ -94,7 +96,9 @@ export default function Header({ simplified = false }: Props) {
               </a>
             ))}
             <a
-              href="#waitlist"
+              href="/survey"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-2 inline-flex w-fit rounded-full border border-[#1a1a1a] px-5 py-2 text-sm font-medium text-[#1a1a1a] transition-all hover:bg-[#1a1a1a] hover:text-white"
             >
               {t.joinWaitlist}

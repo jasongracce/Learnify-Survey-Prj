@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
 import { isEmailValid, isWelcomeValid, type FormState } from "./types";
 
-type Phase = "greeting" | "name-form" | "email-form" | "letsStart";
+type Phase = "greeting" | "name-form" | "email-form" | "thanks" | "letsStart";
 
 type Props = {
   form: FormState;
@@ -30,26 +30,50 @@ export default function Welcome({ form, setForm, onContinue }: Props) {
       const id = window.setTimeout(() => setPhase("name-form"), 2500);
       return () => window.clearTimeout(id);
     }
+    if (phase === "thanks") {
+      const id = window.setTimeout(() => setPhase("letsStart"), 2500);
+      return () => window.clearTimeout(id);
+    }
     if (phase === "letsStart") {
       const id = window.setTimeout(() => onContinueRef.current(), 2000);
       return () => window.clearTimeout(id);
     }
   }, [phase]);
 
-  const handleNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitName = () => {
     if (isWelcomeValid(form)) setPhase("email-form");
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitEmail = () => {
     if (isEmailValid(form)) {
       setEmailError(null);
-      setPhase("letsStart");
+      setPhase("thanks");
     } else {
       setEmailError(w.emailInvalid);
     }
   };
+
+  const handleNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitName();
+  };
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitEmail();
+  };
+
+  useEffect(() => {
+    if (phase !== "name-form" && phase !== "email-form") return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" || !(e.ctrlKey || e.metaKey)) return;
+      e.preventDefault();
+      if (phase === "name-form") submitName();
+      else submitEmail();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [phase, form]);
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
@@ -95,13 +119,16 @@ export default function Welcome({ form, setForm, onContinue }: Props) {
               placeholder={w.namePlaceholder}
               className="w-full border-0 border-b border-black/20 bg-transparent px-0 py-2 text-center text-lg text-[#1a1a1a] outline-none transition-colors placeholder:text-black/30 focus:border-[#1a1a1a]"
             />
-            <button
-              type="submit"
-              disabled={!isWelcomeValid(form)}
-              className="inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-3 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
-            >
-              {w.getStarted}
-            </button>
+            <div className="flex flex-col items-center gap-2">
+              <button
+                type="submit"
+                disabled={!isWelcomeValid(form)}
+                className="inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-3 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+              >
+                {w.getStarted}
+              </button>
+              <span className="text-xs text-black/30">Ctrl + Enter</span>
+            </div>
           </motion.form>
         )}
 
@@ -134,14 +161,33 @@ export default function Welcome({ form, setForm, onContinue }: Props) {
             {emailError && (
               <p className="text-sm text-[#c13b3b]">{emailError}</p>
             )}
-            <button
-              type="submit"
-              disabled={!isEmailValid(form)}
-              className="inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-3 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
-            >
-              {w.emailContinue}
-            </button>
+            <div className="flex flex-col items-center gap-2">
+              <button
+                type="submit"
+                disabled={!isEmailValid(form)}
+                className="inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-3 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+              >
+                {w.emailContinue}
+              </button>
+              <span className="text-xs text-black/30">Ctrl + Enter</span>
+            </div>
           </motion.form>
+        )}
+
+        {phase === "thanks" && (
+          <motion.h1
+            key="thanks"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-center text-2xl font-bold tracking-tight text-[#1a1a1a] md:text-4xl"
+          >
+            <span className="block whitespace-nowrap">
+              {w.thanksLine1.replace("{name}", form.respondent_name.trim())}
+            </span>
+            <span className="block">{w.thanksLine2}</span>
+          </motion.h1>
         )}
 
         {phase === "letsStart" && (
