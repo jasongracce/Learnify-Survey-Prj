@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, CSSProperties } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { useLanguage } from "@/lib/i18n";
+import Reveal from "./reveal";
+import { useVisibilityPause } from "@/lib/use-visibility-pause";
 
 type ScriptEntry = {
   from: "user" | "lumi";
@@ -109,14 +115,25 @@ const COPY: Record<"en" | "th", ChatCopy> = {
 const DURATION = 23;
 const ACCENT = "#000";
 
-function useLoopingTime(duration: number) {
+function useLoopingTime(duration: number, enabled: boolean) {
   const [time, setTime] = useState(0);
+  const enabledRef = useRef(enabled);
+  useEffect(() => {
+    enabledRef.current = enabled;
+  }, [enabled]);
+
   useEffect(() => {
     let raf = 0;
-    let start: number | null = null;
+    let last: number | null = null;
+    let accumulated = 0;
     const tick = (ts: number) => {
-      if (start === null) start = ts;
-      setTime(((ts - start) / 1000) % duration);
+      if (last === null) last = ts;
+      const delta = ts - last;
+      last = ts;
+      if (enabledRef.current) {
+        accumulated = (accumulated + delta / 1000) % duration;
+        setTime(accumulated);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -280,10 +297,14 @@ const FONT_BY_LANG: Record<"en" | "th", string> = {
   th: "var(--font-noto-sans-thai), var(--font-geist-sans), -apple-system, system-ui, sans-serif",
 };
 
-function PhoneChat({ lang }: { lang: "en" | "th" }) {
-  const time = useLoopingTime(DURATION);
+function ChatChrome({
+  lang,
+  children,
+}: {
+  lang: "en" | "th";
+  children: React.ReactNode;
+}) {
   const copy = COPY[lang];
-  const script = copy.script;
   return (
     <div
       key={lang}
@@ -342,9 +363,7 @@ function PhoneChat({ lang }: { lang: "en" | "th" }) {
           justifyContent: "flex-end",
         }}
       >
-        {script.map((msg, i) => (
-          <Message key={i} msg={msg} time={time} idx={i} allMsgs={script} />
-        ))}
+        {children}
       </div>
 
       {/* Composer */}
@@ -387,35 +406,53 @@ function PhoneChat({ lang }: { lang: "en" | "th" }) {
   );
 }
 
+function PhoneChatLive({ lang }: { lang: "en" | "th" }) {
+  const { ref, isVisible } = useVisibilityPause<HTMLDivElement>();
+  const time = useLoopingTime(DURATION, isVisible);
+  const script = COPY[lang].script;
+  return (
+    <div ref={ref} style={{ height: "100%" }}>
+      <ChatChrome lang={lang}>
+        {script.map((msg, i) => (
+          <Message key={i} msg={msg} time={time} idx={i} allMsgs={script} />
+        ))}
+      </ChatChrome>
+    </div>
+  );
+}
+
+function PhoneChatStatic({ lang }: { lang: "en" | "th" }) {
+  const script = COPY[lang].script;
+  // Show the first 3 fully-entered messages; no animation.
+  const shown = script.slice(0, 3);
+  const BIG_TIME = 999;
+  return (
+    <ChatChrome lang={lang}>
+      {shown.map((msg, i) => (
+        <Message
+          key={i}
+          msg={{ ...msg, typingStart: undefined, showStart: 0 }}
+          time={BIG_TIME}
+          idx={i}
+          allMsgs={shown.map((m) => ({ ...m, typingStart: undefined, showStart: 0 }))}
+        />
+      ))}
+    </ChatChrome>
+  );
+}
+
 export default function FeatureAi() {
   const { t, language } = useLanguage();
   const feature = t.features.ai;
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "center start"],
-  });
-
-  const textX = useTransform(scrollYProgress, [0, 0.6], [-50, 0]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const chatX = useTransform(scrollYProgress, [0.1, 0.7], [60, 0]);
-  const chatOpacity = useTransform(scrollYProgress, [0.1, 0.6], [0, 1]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full overflow-hidden bg-[#f9f9f7] py-20 md:py-28"
-    >
+    <section className="relative w-full overflow-hidden bg-[#f9f9f7] py-14 md:py-24">
       <style>{`@keyframes lumiDot { 0%, 100% { opacity: 0.35; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }`}</style>
 
       <div className="mx-auto max-w-7xl px-6">
         <div className="relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Text */}
-          <motion.div
-            style={{ x: textX, opacity: textOpacity }}
-            className="flex flex-col"
-          >
+          <Reveal className="flex flex-col">
             <span className="text-sm font-bold tracking-[0.2em] text-[#6b6b6b]">
               {feature.number}
             </span>
@@ -426,23 +463,24 @@ export default function FeatureAi() {
             <p className="mt-6 max-w-lg text-base leading-relaxed text-[#6b6b6b] sm:text-lg">
               {feature.description}
             </p>
-          </motion.div>
+          </Reveal>
 
-          {/* Animated phone chat */}
-          <motion.div
-            style={{ x: chatX, opacity: chatOpacity }}
-            className="flex justify-center lg:justify-end"
-          >
+          {/* Phone chat: static on mobile, live on md+ */}
+          <Reveal delay={120} className="flex justify-center lg:justify-end">
             <div
-              className="w-full max-w-sm overflow-hidden rounded-[32px] ring-1 ring-black/5"
+              className="w-full max-w-sm overflow-hidden rounded-[32px] ring-1 ring-black/5 h-[520px] md:h-[640px]"
               style={{
-                height: 640,
                 boxShadow: "0 30px 60px -25px rgba(0,0,0,0.18)",
               }}
             >
-              <PhoneChat lang={language} />
+              <div className="md:hidden h-full">
+                <PhoneChatStatic lang={language} />
+              </div>
+              <div className="hidden md:block h-full">
+                <PhoneChatLive lang={language} />
+              </div>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>
