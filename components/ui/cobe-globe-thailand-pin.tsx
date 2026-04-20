@@ -6,6 +6,7 @@ import createGlobe from "cobe";
 type Props = {
   className?: string;
   speed?: number;
+  enabled?: boolean;
 };
 
 const THAILAND_LOCATION: [number, number] = [13.75, 100.5];
@@ -55,6 +56,7 @@ function ThaiFlagPin() {
 export function GlobeWithThailandPin({
   className = "",
   speed = 0.003,
+  enabled = true,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerInteracting = useRef<{ x: number; y: number } | null>(null);
@@ -62,6 +64,10 @@ export function GlobeWithThailandPin({
   const phiOffsetRef = useRef(0);
   const thetaOffsetRef = useRef(0);
   const isPausedRef = useRef(false);
+  const enabledRef = useRef(enabled);
+  useEffect(() => {
+    enabledRef.current = enabled;
+  }, [enabled]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     pointerInteracting.current = { x: e.clientX, y: e.clientY };
@@ -133,11 +139,13 @@ export function GlobeWithThailandPin({
       });
 
       function animate() {
-        if (!isPausedRef.current) phi += speed;
-        globe!.update({
-          phi: phi + phiOffsetRef.current + dragOffset.current.phi,
-          theta: 0.2 + thetaOffsetRef.current + dragOffset.current.theta,
-        });
+        if (enabledRef.current) {
+          if (!isPausedRef.current) phi += speed;
+          globe!.update({
+            phi: phi + phiOffsetRef.current + dragOffset.current.phi,
+            theta: 0.2 + thetaOffsetRef.current + dragOffset.current.theta,
+          });
+        }
         animationId = requestAnimationFrame(animate);
       }
       animate();
