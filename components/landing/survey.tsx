@@ -23,12 +23,12 @@ export default function Survey() {
           </p>
         </Reveal>
 
-        <Reveal delay={150}>
+        <Reveal delay={150} className="mt-10">
           <a
             href="/survey"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-10 inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-4 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a]"
+            className="inline-flex items-center justify-center rounded-full bg-[#1a1a1a] px-8 py-4 text-base font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-[#2a2a2a]"
           >
             {s.cta}
           </a>
