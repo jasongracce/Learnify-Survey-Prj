@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
 import { useLanguage } from "@/lib/i18n";
+import Reveal from "./reveal";
 
 function Check({ className = "" }: { className?: string }) {
   return (
@@ -59,7 +59,6 @@ function PricingCard({
   selected,
   onSelect,
   delay,
-  scrollProgress,
 }: {
   tier: Tier;
   billingSuffix: string;
@@ -67,19 +66,7 @@ function PricingCard({
   selected: boolean;
   onSelect: () => void;
   delay: number;
-  scrollProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
-  const entranceY = useTransform(
-    scrollProgress,
-    [0 + delay, 0.5 + delay],
-    [40, 0],
-  );
-  const entranceOpacity = useTransform(
-    scrollProgress,
-    [0 + delay, 0.5 + delay],
-    [0, 1],
-  );
-
   const cardClass = selected
     ? "-translate-y-3 bg-[#1a1a1a] text-white border-black/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.35)]"
     : "translate-y-0 bg-[#ececea] text-[#6b6b6b] border-black/5 shadow-sm hover:-translate-y-1";
@@ -98,10 +85,7 @@ function PricingCard({
     : "bg-[#1a1a1a]/80 text-white";
 
   return (
-    <motion.div
-      style={{ y: entranceY, opacity: entranceOpacity }}
-      className="w-full"
-    >
+    <Reveal delay={delay} className="w-full">
       <button
         type="button"
         onClick={onSelect}
@@ -187,23 +171,14 @@ function PricingCard({
           </ul>
         </div>
       </button>
-    </motion.div>
+    </Reveal>
   );
 }
 
 export default function Pricing() {
   const { t } = useLanguage();
   const p = t.pricing;
-  const sectionRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "center start"],
-  });
-
-  const headingY = useTransform(scrollYProgress, [0, 0.4], [40, 0]);
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
 
   const tiers: Tier[] = [
     {
@@ -246,19 +221,15 @@ export default function Pricing() {
   return (
     <section
       id="pricing"
-      ref={sectionRef}
-      className="w-full bg-[#f9f9f7] py-24 md:py-32"
+      className="w-full bg-[#f9f9f7] py-16 md:py-28"
     >
       <div className="mx-auto max-w-6xl px-6">
-        <motion.div
-          style={{ y: headingY, opacity: headingOpacity }}
-          className="flex flex-col items-center text-center"
-        >
+        <Reveal className="flex flex-col items-center text-center">
           <h2 className="text-4xl font-bold tracking-tight text-[#1a1a1a] md:text-5xl">
             {p.title}
           </h2>
           <p className="mt-3 text-base text-[#6b6b6b]">{p.subtitle}</p>
-        </motion.div>
+        </Reveal>
 
         <div className="mt-14 grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
           {tiers.map((tier, i) => (
@@ -269,8 +240,7 @@ export default function Pricing() {
               cta={p.cta}
               selected={selectedIndex === i}
               onSelect={() => setSelectedIndex(i)}
-              delay={i * 0.08}
-              scrollProgress={scrollYProgress}
+              delay={i * 80}
             />
           ))}
         </div>
