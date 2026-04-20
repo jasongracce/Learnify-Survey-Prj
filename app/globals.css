@@ -60,3 +60,29 @@ body {
 .animation-delay-500 {
   animation-delay: 0.5s;
 }
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal[data-variant="fade-up"] {
+  transform: translateY(16px);
+}
+
+.reveal[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition-duration: 200ms;
+  }
+  .reveal[data-variant="fade-up"] {
+    transform: none;
+  }
+}
