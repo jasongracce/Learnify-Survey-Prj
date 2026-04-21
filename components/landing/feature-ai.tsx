@@ -9,6 +9,7 @@ import {
 import { useLanguage } from "@/lib/i18n";
 import Reveal from "./reveal";
 import { useVisibilityPause } from "@/lib/use-visibility-pause";
+import { useIsDesktop } from "@/lib/use-is-desktop";
 
 type ScriptEntry = {
   from: "user" | "lumi";
@@ -444,6 +445,7 @@ function PhoneChatStatic({ lang }: { lang: "en" | "th" }) {
 export default function FeatureAi() {
   const { t, language } = useLanguage();
   const feature = t.features.ai;
+  const isDesktop = useIsDesktop();
 
   return (
     <section className="relative w-full overflow-hidden bg-[#f9f9f7] py-14 md:py-24">
@@ -473,12 +475,11 @@ export default function FeatureAi() {
                 boxShadow: "0 30px 60px -25px rgba(0,0,0,0.18)",
               }}
             >
-              <div className="md:hidden h-full">
-                <PhoneChatStatic lang={language} />
-              </div>
-              <div className="hidden md:block h-full">
+              {isDesktop ? (
                 <PhoneChatLive lang={language} />
-              </div>
+              ) : (
+                <PhoneChatStatic lang={language} />
+              )}
             </div>
           </Reveal>
         </div>

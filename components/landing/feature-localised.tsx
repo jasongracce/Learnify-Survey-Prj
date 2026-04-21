@@ -4,6 +4,7 @@ import { useLanguage } from "@/lib/i18n";
 import { GlobeWithThailandPin } from "@/components/ui/cobe-globe-thailand-pin";
 import Reveal from "./reveal";
 import { useVisibilityPause } from "@/lib/use-visibility-pause";
+import { useIsDesktop } from "@/lib/use-is-desktop";
 
 function StaticGlobe() {
   return (
@@ -74,6 +75,7 @@ function DesktopGlobe() {
 export default function FeatureLocalised() {
   const { t } = useLanguage();
   const feature = t.features.localised;
+  const isDesktop = useIsDesktop();
 
   return (
     <section className="relative w-full overflow-hidden bg-[#f9f9f7] py-16 md:py-28">
@@ -99,13 +101,7 @@ export default function FeatureLocalised() {
                 aria-hidden
               />
             </div>
-            {/* Mobile: static placeholder. Desktop: live cobe globe. */}
-            <div className="md:hidden">
-              <StaticGlobe />
-            </div>
-            <div className="hidden md:block">
-              <DesktopGlobe />
-            </div>
+            {isDesktop ? <DesktopGlobe /> : <StaticGlobe />}
           </div>
         </Reveal>
       </div>
