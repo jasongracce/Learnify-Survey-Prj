@@ -18,14 +18,15 @@ export default function Reveal({
   children,
 }: Props) {
   const ref = useRef<Element>(null);
-  const [revealed, setRevealed] = useState(
-    () => typeof IntersectionObserver === "undefined",
-  );
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (typeof IntersectionObserver === "undefined") return;
+    if (typeof IntersectionObserver === "undefined") {
+      setRevealed(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
