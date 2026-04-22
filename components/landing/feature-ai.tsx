@@ -447,29 +447,29 @@ export default function FeatureAi() {
             </p>
           </Reveal>
 
-          {/* Phone chat: static on mobile, live on md+ */}
+          {/* Phone chat: video on mobile, live on md+ */}
           <Reveal delay={120} className="flex justify-center lg:justify-end">
-            <div
-              className="w-full max-w-sm overflow-hidden rounded-[32px] ring-1 ring-black/5 h-[520px] md:h-[640px]"
-              style={{
-                boxShadow: "0 30px 60px -25px rgba(0,0,0,0.18)",
-              }}
-            >
-              {isDesktop ? (
+            {isDesktop ? (
+              <div
+                className="w-full max-w-sm overflow-hidden rounded-[32px] ring-1 ring-black/5 h-[520px] md:h-[640px]"
+                style={{
+                  boxShadow: "0 30px 60px -25px rgba(0,0,0,0.18)",
+                }}
+              >
                 <PhoneChatLive lang={language} />
-              ) : (
-                <video
-                  src="/lumi-chat.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="h-full w-full object-cover"
-                  aria-label="Lumi AI chat demo"
-                />
-              )}
-            </div>
+              </div>
+            ) : (
+              <video
+                src={language === "th" ? "/lumi-chat-th.mp4" : "/lumi-chat-en.mp4"}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className="h-auto w-full max-w-[240px]"
+                aria-label="Lumi AI chat demo"
+              />
+            )}
           </Reveal>
         </div>
       </div>

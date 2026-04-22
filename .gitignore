@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local dev tooling
+.claude/
+.playwright-mcp/
+
+# local video capture source (too large; regenerate locally)
+/public/lumi-chat-source.html
+
+# scripts scratch output
+/scripts/.*.png
+/scripts/.lumi-*-tmp/
+/scripts/.video-tmp/
