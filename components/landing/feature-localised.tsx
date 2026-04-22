@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
 import { GlobeWithThailandPin } from "@/components/ui/cobe-globe-thailand-pin";
 import Reveal from "./reveal";
@@ -9,56 +10,14 @@ import { useIsDesktop } from "@/lib/use-is-desktop";
 function StaticGlobe() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-sm select-none">
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle at 35% 30%, #ffffff 0%, #f0f5fb 45%, #d6e3ef 75%, #b9c9d9 100%)",
-          boxShadow: "inset -20px -30px 80px rgba(0,0,0,0.12)",
-        }}
-        aria-hidden
+      <Image
+        src="/globe-thailand.png"
+        alt="Globe showing Thailand"
+        fill
+        priority={false}
+        sizes="(min-width: 768px) 0px, 100vw"
+        className="object-contain"
       />
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle at 30% 25%, rgba(255,255,255,0.6) 0%, transparent 40%)",
-        }}
-        aria-hidden
-      />
-      {/* Thai flag pin marker, roughly centered */}
-      <div
-        className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-full"
-        style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.22))" }}
-        aria-hidden
-      >
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
-            boxShadow: "0 0 0 3px #ffffff",
-            background: `linear-gradient(
-              to bottom,
-              #A51931 0%, #A51931 16.67%,
-              #F4F5F8 16.67%, #F4F5F8 33.33%,
-              #2D2A4A 33.33%, #2D2A4A 66.67%,
-              #F4F5F8 66.67%, #F4F5F8 83.33%,
-              #A51931 83.33%, #A51931 100%
-            )`,
-          }}
-        />
-        <div
-          style={{
-            width: 0,
-            height: 0,
-            margin: "2px auto 0",
-            borderLeft: "5px solid transparent",
-            borderRight: "5px solid transparent",
-            borderTop: "7px solid #ffffff",
-          }}
-        />
-      </div>
     </div>
   );
 }

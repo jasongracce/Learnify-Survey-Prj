@@ -422,26 +422,6 @@ function PhoneChatLive({ lang }: { lang: "en" | "th" }) {
   );
 }
 
-function PhoneChatStatic({ lang }: { lang: "en" | "th" }) {
-  const script = COPY[lang].script;
-  // Show the first 3 fully-entered messages; no animation.
-  const shown = script.slice(0, 3);
-  const BIG_TIME = 999;
-  return (
-    <ChatChrome lang={lang}>
-      {shown.map((msg, i) => (
-        <Message
-          key={i}
-          msg={{ ...msg, typingStart: undefined, showStart: 0 }}
-          time={BIG_TIME}
-          idx={i}
-          allMsgs={shown.map((m) => ({ ...m, typingStart: undefined, showStart: 0 }))}
-        />
-      ))}
-    </ChatChrome>
-  );
-}
-
 export default function FeatureAi() {
   const { t, language } = useLanguage();
   const feature = t.features.ai;
@@ -478,7 +458,16 @@ export default function FeatureAi() {
               {isDesktop ? (
                 <PhoneChatLive lang={language} />
               ) : (
-                <PhoneChatStatic lang={language} />
+                <video
+                  src="/lumi-chat.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="h-full w-full object-cover"
+                  aria-label="Lumi AI chat demo"
+                />
               )}
             </div>
           </Reveal>
