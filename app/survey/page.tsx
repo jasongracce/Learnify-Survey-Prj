@@ -106,7 +106,7 @@ export default function SurveyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f9f7]">
+    <div className="min-h-dvh bg-[#f9f9f7]">
       <Header simplified />
       <main className="mx-auto max-w-2xl px-6 py-16 md:py-24">
         <AnimatePresence mode="wait">
