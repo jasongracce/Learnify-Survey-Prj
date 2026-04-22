@@ -9,7 +9,6 @@ import {
 import { useLanguage } from "@/lib/i18n";
 import Reveal from "./reveal";
 import { useVisibilityPause } from "@/lib/use-visibility-pause";
-import { useIsDesktop } from "@/lib/use-is-desktop";
 
 type ScriptEntry = {
   from: "user" | "lumi";
@@ -425,7 +424,6 @@ function PhoneChatLive({ lang }: { lang: "en" | "th" }) {
 export default function FeatureAi() {
   const { t, language } = useLanguage();
   const feature = t.features.ai;
-  const isDesktop = useIsDesktop();
 
   return (
     <section className="relative w-full overflow-hidden bg-[#f9f9f7] py-14 md:py-24">
@@ -447,29 +445,16 @@ export default function FeatureAi() {
             </p>
           </Reveal>
 
-          {/* Phone chat: video on mobile, live on md+ */}
+          {/* Phone chat: live on all viewports (vector-crisp, pauses when off-screen) */}
           <Reveal delay={120} className="flex justify-center lg:justify-end">
-            {isDesktop ? (
-              <div
-                className="w-full max-w-sm overflow-hidden rounded-[32px] ring-1 ring-black/5 h-[520px] md:h-[640px]"
-                style={{
-                  boxShadow: "0 30px 60px -25px rgba(0,0,0,0.18)",
-                }}
-              >
-                <PhoneChatLive lang={language} />
-              </div>
-            ) : (
-              <video
-                src={language === "th" ? "/lumi-chat-th.mp4" : "/lumi-chat-en.mp4"}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="h-auto w-full max-w-[240px]"
-                aria-label="Lumi AI chat demo"
-              />
-            )}
+            <div
+              className="w-full max-w-sm overflow-hidden rounded-[32px] ring-1 ring-black/5 h-[520px] md:h-[640px]"
+              style={{
+                boxShadow: "0 30px 60px -25px rgba(0,0,0,0.18)",
+              }}
+            >
+              <PhoneChatLive lang={language} />
+            </div>
           </Reveal>
         </div>
       </div>
