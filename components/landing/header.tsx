@@ -61,22 +61,25 @@ export default function Header({ simplified = false }: Props) {
               <LanguageDropdown />
             </div>
 
-            {/* Mobile toggle */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="flex flex-col gap-1.5 md:hidden"
-              aria-label="Toggle menu"
-            >
-              <span
-                className={`h-0.5 w-5 bg-[#1a1a1a] transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""}`}
-              />
-              <span
-                className={`h-0.5 w-5 bg-[#1a1a1a] transition-opacity ${mobileOpen ? "opacity-0" : ""}`}
-              />
-              <span
-                className={`h-0.5 w-5 bg-[#1a1a1a] transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""}`}
-              />
-            </button>
+            {/* Mobile: language + toggle */}
+            <div className="flex items-center gap-3 md:hidden">
+              <LanguageDropdown />
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="flex flex-col gap-1.5"
+                aria-label="Toggle menu"
+              >
+                <span
+                  className={`h-0.5 w-5 bg-[#1a1a1a] transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""}`}
+                />
+                <span
+                  className={`h-0.5 w-5 bg-[#1a1a1a] transition-opacity ${mobileOpen ? "opacity-0" : ""}`}
+                />
+                <span
+                  className={`h-0.5 w-5 bg-[#1a1a1a] transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""}`}
+                />
+              </button>
+            </div>
           </>
         )}
       </div>
