@@ -24,7 +24,6 @@ import {
   canAdvance,
 } from "@/components/survey/types";
 import { useLanguage } from "@/lib/i18n";
-import { getSupabase } from "@/lib/supabase";
 
 const THANK_YOU_STEP = TOTAL_QUESTIONS + 1;
 
@@ -56,47 +55,49 @@ export default function SurveyPage() {
     setSubmitError(null);
     setIsSubmitting(true);
     try {
-      const supabase = getSupabase();
-      const { data, error } = await supabase
-        .from("survey_responses")
-        .insert({
+      const res = await fetch("/api/survey/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           language,
-          respondent_name: form.respondent_name.trim(),
-          q1_tools_used: form.q1_tools_used.trim(),
-          q2_frequency: form.q2_frequency || null,
-          q3_use_cases:
-            form.q3_use_cases.length > 0 ? form.q3_use_cases : null,
-          q3_other: form.q3_other.trim() || null,
-          q4_frustrations:
-            form.q4_frustrations.length > 0 ? form.q4_frustrations : null,
-          q4_other: form.q4_other.trim() || null,
+          email: form.email,
+          respondent_name: form.respondent_name,
+          q1_tools_used: form.q1_tools_used,
+          q2_frequency: form.q2_frequency,
+          q3_use_cases: form.q3_use_cases,
+          q3_other: form.q3_other,
+          q4_frustrations: form.q4_frustrations,
+          q4_other: form.q4_other,
           q5_curriculum_fit: form.q5_curriculum_fit,
-          q6_wish: form.q6_wish.trim() || null,
+          q6_wish: form.q6_wish,
           q7_try_likelihood: form.q7_try_likelihood,
           q8_top_feature: form.q8_top_feature,
-          q8_other: form.q8_other.trim() || null,
-          q9_blockers: form.q9_blockers.length > 0 ? form.q9_blockers : null,
-          q9_other: form.q9_other.trim() || null,
-          q10_extra: form.q10_extra.trim() || null,
-        })
-        .select("id")
-        .single();
-      if (error || !data) {
+          q8_other: form.q8_other,
+          q9_blockers: form.q9_blockers,
+          q9_other: form.q9_other,
+          q10_extra: form.q10_extra,
+        }),
+      });
+
+      if (res.status === 429) {
+        setSubmitError(sp.errors.rateLimited);
+        setIsSubmitting(false);
+        return;
+      }
+      if (!res.ok) {
         setSubmitError(sp.errors.submitFailed);
         setIsSubmitting(false);
         return;
       }
 
-      const newResponseId = data.id as string;
-
-      const { error: betaError } = await supabase
-        .from("beta_signups")
-        .insert({ email: form.email.trim(), response_id: newResponseId });
-      if (betaError && betaError.code !== "23505") {
-        console.error("beta_signups insert failed:", betaError);
+      const data = (await res.json()) as { id?: string };
+      if (!data.id) {
+        setSubmitError(sp.errors.submitFailed);
+        setIsSubmitting(false);
+        return;
       }
 
-      setResponseId(newResponseId);
+      setResponseId(data.id);
       setIsSubmitting(false);
       setStep(THANK_YOU_STEP);
     } catch {

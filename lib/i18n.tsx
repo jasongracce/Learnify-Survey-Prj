@@ -191,6 +191,7 @@ export type Translations = {
     };
     errors: {
       submitFailed: string;
+      rateLimited: string;
     };
   };
 };
@@ -434,6 +435,8 @@ const translations: Record<Language, Translations> = {
       },
       errors: {
         submitFailed: "Couldn't submit — please try again.",
+        rateLimited:
+          "Too many submissions from this network — please try again later.",
       },
     },
   },
@@ -675,6 +678,8 @@ const translations: Record<Language, Translations> = {
       },
       errors: {
         submitFailed: "ส่งไม่สำเร็จ — ลองอีกครั้ง",
+        rateLimited:
+          "มีการส่งแบบสอบถามจากเครือข่ายนี้บ่อยเกินไป กรุณาลองใหม่ภายหลัง",
       },
     },
   },
@@ -710,6 +715,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const detected = detectInitialLanguage();
+    // Post-mount detection is required to avoid SSR hydration mismatch —
+    // the server cannot read navigator.language, so first render must be "en"
+    // and we reconcile to the detected value once on the client.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (detected !== "en") setLanguageState(detected);
     document.documentElement.lang = detected;
   }, []);
