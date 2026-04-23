@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 
 export type Language = "en" | "th";
 
@@ -681,8 +688,42 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
+const LANGUAGE_STORAGE_KEY = "learnify-lang";
+
+function detectInitialLanguage(): Language {
+  if (typeof window === "undefined") return "en";
+  try {
+    const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (saved === "en" || saved === "th") return saved;
+  } catch {
+    // localStorage may be unavailable (e.g. private mode); fall through to device detection
+  }
+  const candidates = [
+    ...(navigator.languages ?? []),
+    navigator.language,
+  ].filter(Boolean);
+  return candidates.some((l) => l.toLowerCase().startsWith("th")) ? "th" : "en";
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguageState] = useState<Language>("en");
+
+  useEffect(() => {
+    const detected = detectInitialLanguage();
+    if (detected !== "en") setLanguageState(detected);
+    document.documentElement.lang = detected;
+  }, []);
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+    try {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+    } catch {
+      // ignore write failures (private mode, quota, etc.)
+    }
+    document.documentElement.lang = lang;
+  }, []);
+
   return (
     <LanguageContext.Provider
       value={{ language, setLanguage, t: translations[language] }}
