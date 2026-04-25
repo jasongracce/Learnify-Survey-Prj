@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase-server";
+import { sendSurveyConfirmation } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -168,6 +169,16 @@ export async function POST(req: NextRequest) {
     // Survey row already saved — don't fail the request over a signup issue
     console.error("beta_signups insert failed:", signupError);
   }
+
+  sendSurveyConfirmation({
+    to: p.email.trim(),
+    name: p.respondent_name.trim(),
+  }).catch((e) => {
+    console.error("survey confirmation email failed:", {
+      response_id: responseId,
+      error: e instanceof Error ? e.message : String(e),
+    });
+  });
 
   return NextResponse.json({ id: responseId }, { status: 200 });
 }
