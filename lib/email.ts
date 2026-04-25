@@ -5,12 +5,8 @@ const DEFAULT_FROM = "Learnify Team <noreply@learnify.academy>";
 let resendClient: Resend | null = null;
 
 function getResend(): Resend {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) {
-    throw new Error("RESEND_API_KEY is not set");
-  }
   if (!resendClient) {
-    resendClient = new Resend(key);
+    resendClient = new Resend(process.env.RESEND_API_KEY!);
   }
   return resendClient;
 }
@@ -102,9 +98,7 @@ export async function sendSurveyConfirmation(args: {
 
   if (error) {
     throw new Error(
-      typeof error === "object" && error !== null && "message" in error
-        ? String((error as { message: unknown }).message)
-        : "resend send failed",
+      `resend error ${error.name} (${error.statusCode ?? "?"}): ${error.message}`,
     );
   }
 }
