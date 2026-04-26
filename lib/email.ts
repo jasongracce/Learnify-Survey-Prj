@@ -1,20 +1,10 @@
 import { Resend } from "resend";
 
-const DEFAULT_FROM = "Learnify Team <noreply@learnify.academy>";
+let client: Resend | null = null;
 
-let resendClient: Resend | null = null;
-
-function getResend(): Resend {
-  if (!resendClient) {
-    resendClient = new Resend(process.env.RESEND_API_KEY!);
-  }
-  return resendClient;
-}
-
-function isEnabled(): boolean {
-  if (!process.env.RESEND_API_KEY) return false;
-  if (process.env.EMAIL_ENABLED === "false") return false;
-  return true;
+function getClient(): Resend {
+  if (!client) client = new Resend(process.env.RESEND_API_KEY!);
+  return client;
 }
 
 function escapeHtml(s: string): string {
@@ -80,15 +70,10 @@ export async function sendSurveyConfirmation(args: {
   to: string;
   name: string;
 }): Promise<void> {
-  if (!isEnabled()) {
-    console.log("email disabled — skipping send");
-    return;
-  }
+  const from =
+    process.env.EMAIL_FROM || "Learnify Team <noreply@learnify.academy>";
 
-  const from = process.env.EMAIL_FROM || DEFAULT_FROM;
-  const resend = getResend();
-
-  const { error } = await resend.emails.send({
+  const { error } = await getClient().emails.send({
     from,
     to: args.to,
     subject: SUBJECT,
