@@ -12,6 +12,18 @@ export default function Q8({ form, setForm }: Props) {
   const { t } = useLanguage();
   const q = t.surveyPage.step3.q8;
 
+  const toggle = (key: (typeof Q8_OPTIONS)[number]) => {
+    setForm((prev) => {
+      const has = prev.q8_top_features.includes(key);
+      return {
+        ...prev,
+        q8_top_features: has
+          ? prev.q8_top_features.filter((k) => k !== key)
+          : [...prev.q8_top_features, key],
+      };
+    });
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <span className="text-2xl font-semibold tracking-tight text-[#1a1a1a] md:text-3xl">
@@ -24,19 +36,15 @@ export default function Q8({ form, setForm }: Props) {
             className="flex cursor-pointer items-center gap-3 text-base text-[#6b6b6b]"
           >
             <input
-              type="radio"
-              name="q8"
-              value={key}
-              checked={form.q8_top_feature === key}
-              onChange={() =>
-                setForm((prev) => ({ ...prev, q8_top_feature: key }))
-              }
+              type="checkbox"
+              checked={form.q8_top_features.includes(key)}
+              onChange={() => toggle(key)}
               className="h-4 w-4 accent-[#1a1a1a]"
             />
             <span>{q.options[key]}</span>
           </label>
         ))}
-        {form.q8_top_feature === "other" && (
+        {form.q8_top_features.includes("other") && (
           <input
             type="text"
             maxLength={200}

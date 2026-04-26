@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Noto_Sans_Thai } from "next/font/google";
+import { Geist, Kanit } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n";
 
@@ -8,8 +8,8 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const notoSansThai = Noto_Sans_Thai({
-  variable: "--font-noto-sans-thai",
+const kanit = Kanit({
+  variable: "--font-kanit",
   subsets: ["thai", "latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${notoSansThai.variable} antialiased`}
+      className={`${geistSans.variable} ${kanit.variable} antialiased`}
     >
       <body>
         <LanguageProvider>{children}</LanguageProvider>

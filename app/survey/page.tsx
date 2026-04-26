@@ -71,7 +71,7 @@ export default function SurveyPage() {
           q5_curriculum_fit: form.q5_curriculum_fit,
           q6_wish: form.q6_wish,
           q7_try_likelihood: form.q7_try_likelihood,
-          q8_top_feature: form.q8_top_feature,
+          q8_top_features: form.q8_top_features,
           q8_other: form.q8_other,
           q9_blockers: form.q9_blockers,
           q9_other: form.q9_other,
@@ -107,7 +107,13 @@ export default function SurveyPage() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f9f9f7]">
+    <div
+      className="min-h-dvh bg-[#f9f9f7]"
+      style={{
+        fontFamily:
+          "var(--font-kanit), var(--font-geist-sans), system-ui, -apple-system, sans-serif",
+      }}
+    >
       <Header simplified />
       <main className="mx-auto max-w-2xl px-6 py-16 md:py-24">
         <AnimatePresence mode="wait">

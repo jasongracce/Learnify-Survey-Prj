@@ -20,7 +20,7 @@ type Payload = {
   q5_curriculum_fit: number | null;
   q6_wish: string;
   q7_try_likelihood: number | null;
-  q8_top_feature: string;
+  q8_top_features: string[];
   q8_other: string;
   q9_blockers: string[];
   q9_other: string;
@@ -73,7 +73,7 @@ function validate(body: unknown): body is Payload {
     b.q7_try_likelihood > 10
   )
     return false;
-  if (typeof b.q8_top_feature !== "string" || b.q8_top_feature === "")
+  if (!isStringArray(b.q8_top_features) || b.q8_top_features.length === 0)
     return false;
   if (typeof b.q8_other !== "string") return false;
   if (!isStringArray(b.q9_blockers)) return false;
@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
       q5_curriculum_fit: p.q5_curriculum_fit,
       q6_wish: p.q6_wish.trim() || null,
       q7_try_likelihood: p.q7_try_likelihood,
-      q8_top_feature: p.q8_top_feature,
+      q8_top_features: p.q8_top_features.length > 0 ? p.q8_top_features : null,
       q8_other: p.q8_other.trim() || null,
       q9_blockers: p.q9_blockers.length > 0 ? p.q9_blockers : null,
       q9_other: p.q9_other.trim() || null,

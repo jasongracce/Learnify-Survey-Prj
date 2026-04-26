@@ -66,7 +66,7 @@ export type FormState = {
   q5_curriculum_fit: number | null;
   q6_wish: string;
   q7_try_likelihood: number | null;
-  q8_top_feature: Q8Option | "";
+  q8_top_features: Q8Option[];
   q8_other: string;
   q9_blockers: Q9Option[];
   q9_other: string;
@@ -85,7 +85,7 @@ export const INITIAL_FORM: FormState = {
   q5_curriculum_fit: null,
   q6_wish: "",
   q7_try_likelihood: null,
-  q8_top_feature: "",
+  q8_top_features: [],
   q8_other: "",
   q9_blockers: [],
   q9_other: "",
@@ -107,6 +107,6 @@ export function isEmailValid(form: FormState): boolean {
 export function canAdvance(step: number, form: FormState): boolean {
   if (step === 1) return form.q1_tools_used.trim().length > 0;
   if (step === 7) return form.q7_try_likelihood !== null;
-  if (step === 8) return form.q8_top_feature !== "";
+  if (step === 8) return form.q8_top_features.length > 0;
   return step >= 1 && step <= TOTAL_QUESTIONS;
 }

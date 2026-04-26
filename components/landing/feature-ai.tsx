@@ -294,7 +294,7 @@ function Message({
 
 const FONT_BY_LANG: Record<"en" | "th", string> = {
   en: "var(--font-geist-sans), -apple-system, system-ui, sans-serif",
-  th: "var(--font-noto-sans-thai), var(--font-geist-sans), -apple-system, system-ui, sans-serif",
+  th: "var(--font-kanit), var(--font-geist-sans), -apple-system, system-ui, sans-serif",
 };
 
 function ChatChrome({
