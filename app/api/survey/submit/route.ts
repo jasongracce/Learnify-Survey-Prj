@@ -170,25 +170,15 @@ export async function POST(req: NextRequest) {
     console.error("beta_signups insert failed:", signupError);
   }
 
-  console.log("[email-debug] reaching email send block", {
-    response_id: responseId,
-    has_resend_key: !!process.env.RESEND_API_KEY,
-    resend_key_prefix: process.env.RESEND_API_KEY?.slice(0, 5) ?? "(none)",
-    email_from: process.env.EMAIL_FROM ?? "(unset)",
-    to: p.email.trim(),
-  });
-
   try {
     await sendSurveyConfirmation({
       to: p.email.trim(),
       name: p.respondent_name.trim(),
     });
-    console.log("[email-debug] send returned successfully", { response_id: responseId });
   } catch (e) {
-    console.error("[email-debug] send threw:", {
+    console.error("survey confirmation email failed:", {
       response_id: responseId,
       error: e instanceof Error ? e.message : String(e),
-      stack: e instanceof Error ? e.stack : undefined,
     });
   }
 
